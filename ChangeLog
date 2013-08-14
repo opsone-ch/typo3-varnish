@@ -1,0 +1,13 @@
+
+2013-08-07  Andri Steiner  <asteiner@snowflake.ch>
+
+	* finalized internal and external Testing
+	* added Varnish VCL Configuration Example
+	* added Documentation
+	* clearCachePostProc Hook: Use either cacheCmd or uid_page to determine Pid
+	* raised Version to 1.0 stable
+
+2013-06-24  Andri Steiner  <asteiner@snowflake.ch>
+
+	* initial Version
+
