@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Varnish Connector',
-	'description' => 'Varnish is the fastest, most flexible and cost efficient web accelerator available for your online business. It speeds up your website and boosts user loyalty and customer conversion rate and helps to save hosting costs.',
+	'description' => 'This extension is managed on GitHub. Feel free to get in touch at https://github.com/snowflakech/typo3-varnish/',
 	'category' => 'misc',
 	'shy' => 0,
 	'version' => '1.0.3',
