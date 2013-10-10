@@ -32,8 +32,6 @@
  */
 
 
-require_once(PATH_typo3 . 'interfaces/interface.backend_cacheActionsHook.php');
-
 class tx_varnish_hooks_clearcachemenu implements backend_cacheActionsHook {
 
 
