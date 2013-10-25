@@ -55,7 +55,11 @@ sub vcl_recv {
 			error 200 "Banned all";
 		}
 
-		if(req.http.Varnish-Ban-TYPO3-Pid) {
+		if(req.http.Varnish-Ban-TYPO3-Pid && req.http.Varnish-Ban-TYPO3-Sitename && req.http.Varnish-Ban-TYPO3-Install-Id) {
+			ban("obj.http.TYPO3-Pid == " + req.http.Varnish-Ban-TYPO3-Pid + " && obj.http.TYPO3-Sitename == " + req.http.Varnish-Ban-TYPO3-Sitename + " && obj.http.TYPO3-Install-Id == " + req.http.Varnish-Ban-TYPO3-Install-Id);
+			error 202 "Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid + " on site " + req.http.Varnish-Ban-TYPO3-Sitename;
+		}
+		else if(req.http.Varnish-Ban-TYPO3-Pid) {
 			ban("obj.http.TYPO3-Pid == " + req.http.Varnish-Ban-TYPO3-Pid);
 			error 200 "Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid;
 		}
@@ -151,6 +155,8 @@ sub vcl_deliver {
 
 	# smart Ban related
 	unset resp.http.TYPO3-Pid;
+	unset resp.http.TYPO3-Sitename;
+	unset resp.http.TYPO3-Install-Id;
 
 	return (deliver);
 }

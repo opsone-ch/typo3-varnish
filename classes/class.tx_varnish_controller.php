@@ -78,7 +78,11 @@ class tx_varnish_controller {
 		// if cacheCmd is a single Page, issue BAN Command on this pid
 		// all other Commands ("page", "all") led to a BAN of the whole Cache
 		$cacheCmd = intval($cacheCmd);
-		$command = $cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1';
+		$command = array(
+			$cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
+			'Varnish-Ban-TYPO3-Sitename: ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'],
+			'Varnish-Ban-TYPO3-Install-Id: ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['T3instID'],
+		);
 
 		// issue command on every Varnish Server
 		/** @var $varnishHttp tx_varnish_http */
