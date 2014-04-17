@@ -41,9 +41,10 @@ class tx_varnish_hooks_tslib_fe {
 	 * @param tslib_fe $parent
 	 */
 	public function sendHeader(array $parameters, tslib_fe $parent) {
+		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
 
 		// Send Page pid which is used to issue BAN Command against
-		if(t3lib_div::getIndpEnv('TYPO3_REV_PROXY') == 1) {
+		if(t3lib_div::getIndpEnv('TYPO3_REV_PROXY') == 1 || $extConf['alwaysSendTypo3Headers'] == 1) {
 			header('TYPO3-Pid: ' . $parent->id);
 			header('TYPO3-Sitename: ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
 		}

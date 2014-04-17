@@ -2,3 +2,6 @@
 instanceHostnames = 
 # cat=basic/; type=boolean; label=LLL:EXT:varnish/locallang.xml:extconf_enabledevlog
 enableDevLog = 0
+
+# cat=basic/; type=boolean; label=LLL:EXT:varnish/locallang.xml:extconf_alwayssendtypo3headers
+alwaysSendTypo3Headers = 0
