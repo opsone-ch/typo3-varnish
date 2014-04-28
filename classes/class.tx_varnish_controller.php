@@ -80,7 +80,7 @@ class tx_varnish_controller {
 		$cacheCmd = intval($cacheCmd);
 		$command = array(
 			$cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
-			'Varnish-Ban-TYPO3-Sitename: ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']
+			'Varnish-Ban-TYPO3-Sitename: ' . tx_varnish_GeneralUtility::getSitename()
 		);
 
 		// issue command on every Varnish Server
