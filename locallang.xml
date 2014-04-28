@@ -12,11 +12,13 @@
 			<label index="be_clear_cache_menu">Clear Varnish Cache</label>
 			<label index="extconf_instancehostnames">Varnish Servers:By default, the Hostname of your Backend Connection is used to connect to Varnish which is usually fine. If your Varnish Server Hostname is different from your Backend Hostname or you run multiple Varnish Instances add those Hostnames here as a Comma separated List.</label>
 			<label index="extconf_enabledevlog">Debug:Write Debug Messages about Varnish Actions to devLog.</label>
+            <label index="extconf_alwayssendtypo3headers">Forces TYPO3 to always send TYPO3 cache specific headers.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="be_clear_cache_menu">Varnish Cache leeren</label>
 			<label index="extconf_instancehostnames">Varnish Server:Standardmässig wird der Hostname des Backends als Varnish-Server benutzt. Wenn Ihr Varnish-Server Hostname nicht Ihr TYPO3 Backend Hostname ist, oder Sie mehrere Varnish Instanzen benutzen, tragen Sie diese hier bitte mit Komma getrennt ein.</label>
 			<label index="extconf_enabledevlog">Debug:Trage Varnish-Actions in das DevLog ein.</label>
+            <label index="extconf_alwayssendtypo3headers">Erzwingt das Senden der TYPO3 cache spezifischen Header.</label>
 		</languageKey>
 	</data>
 </T3locallang>

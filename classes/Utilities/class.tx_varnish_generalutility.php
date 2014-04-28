@@ -64,6 +64,15 @@ class tx_varnish_GeneralUtility {
 			t3lib_div::devLog($functionName, 'varnish', 0, $additionalData);
 		}
 	}
+
+	/**
+	 * Returns HMAC of the sitename
+	 *
+	 * @return mixed
+	 */
+	public static function getSitename() {
+		return t3lib_div::hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
+	}
 }
 
 global $TYPO3_CONF_VARS;
