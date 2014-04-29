@@ -26,16 +26,16 @@ if(!defined('TYPO3_MODE')) die ('Access denied.');
 
 $extPath = t3lib_extMgm::extPath('varnish');
 return array(
-	'tx_varnish_controller'				=> $extPath . 'classes/class.tx_varnish_controller.php',
-	'tx_varnish_http'					=> $extPath . 'classes/class.tx_varnish_http.php',
+	'tx_varnish_controller'			=> $extPath . 'classes/class.tx_varnish_controller.php',
+	'tx_varnish_http'			=> $extPath . 'classes/class.tx_varnish_http.php',
 
 	// hooks
-	'tx_varnish_hooks_ajax'				=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_ajax.php',
+	'tx_varnish_hooks_ajax'			=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_ajax.php',
 	'tx_varnish_hooks_clearcachemenu'	=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_clearcachemenu.php',
-	'tx_varnish_hooks_tcemain'			=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_tcemain.php',
-	'tx_varnish_hooks_tslib_fe'			=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_tslib_fe.php',
+	'tx_varnish_hooks_tcemain'		=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_tcemain.php',
+	'tx_varnish_hooks_tslib_fe'		=> $extPath . 'classes/Hooks/class.tx_varnish_hooks_tslib_fe.php',
 
-	'tx_varnish_generalutility'			=> $extPath . 'classes/Utilities/class.tx_varnish_generalutility.php',
+	'tx_varnish_generalutility'		=> $extPath . 'classes/Utilities/class.tx_varnish_generalutility.php',
 );
 
 ?>
