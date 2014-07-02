@@ -30,13 +30,13 @@ switch(TYPO3_MODE) {
 		t3lib_extMgm::addTypoScriptSetup('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/static/setup.txt">');
 
 		// Hooks
-		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'tx_varnish_hooks_tslib_fe->sendHeader';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_tslib_fe.php:tx_varnish_hooks_tslib_fe->sendHeader';
 		break;
 	case 'BE':
 		// Hooks
-		$TYPO3_CONF_VARS['BE']['AJAX']['tx_varnish::banAll'] = 'tx_varnish_hooks_ajax->banAll';
-		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'tx_varnish_hooks_clearcachemenu';
-		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'tx_varnish_hooks_tcemain->clearCachePostProc';
+		$TYPO3_CONF_VARS['BE']['AJAX']['tx_varnish::banAll'] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_ajax.php:tx_varnish_hooks_ajax->banAll';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_clearcachemenu.php:tx_varnish_hooks_clearcachemenu';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_tcemain.php:tx_varnish_hooks_tcemain->clearCachePostProc';
 
 		break;
 }
