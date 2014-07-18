@@ -73,7 +73,7 @@ class tx_varnish_controller {
 
 	public function clearCache($cacheCmd) {
 
-		tx_varnish_GeneralUtility::devLog('clearCache', array('cacheCmd' => $cacheCmd));
+		t3lib_div::sysLog(sprintf('clear varnish (%s)', $cacheCmd), 'varnish', t3lib_div::SYSLOG_SEVERITY_INFO);
 
 		// if cacheCmd is a single Page, issue BAN Command on this pid
 		// all other Commands ("page", "all") led to a BAN of the whole Cache
