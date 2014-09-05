@@ -4,3 +4,5 @@ instanceHostnames =
 enableDevLog = 0
 # cat=basic/; type=boolean; label=LLL:EXT:varnish/locallang.xml:extconf_alwayssendtypo3headers
 alwaysSendTypo3Headers = 0
+# cat=basic/; type=string; label=LLL:EXT:varnish/locallang.xml:extconf_banRequestMethod
+banRequestMethod = BAN

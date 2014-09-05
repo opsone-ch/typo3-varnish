@@ -13,6 +13,7 @@
 			<label index="extconf_instancehostnames">Varnish Servers:By default, the Hostname of your Backend Connection is used to connect to Varnish which is usually fine. If your Varnish Server Hostname is different from your Backend Hostname or you run multiple Varnish Instances add those Hostnames here as a Comma separated List.</label>
 			<label index="extconf_enabledevlog">Debug:Write Debug Messages about Varnish Actions to devLog.</label>
 			<label index="extconf_alwayssendtypo3headers">Always send TYPO3 Headers:Forces TYPO3 to always send TYPO3 cache specific headers. Is also set on the fly according [SYS][reverseProxyIP] and therefore usually not required.</label>
+			<label index="extconf_banRequestMethod">HTTP request method for banning:By default the BAN request is sent to varnish to clear the cache. This is a nonstandard method and may be blocked by your network. In that case, choose another one (PURGE is standardised).</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="be_clear_cache_menu">Varnish Cache leeren</label>
