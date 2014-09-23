@@ -73,14 +73,14 @@ class tx_varnish_controller {
 
 	public function clearCache($cacheCmd) {
 
-		tx_varnish_GeneralUtility::devLog('clearCache', array('cacheCmd' => $cacheCmd));
+		tx_varnish_generalutility::devLog('clearCache', array('cacheCmd' => $cacheCmd));
 
 		// if cacheCmd is a single Page, issue BAN Command on this pid
 		// all other Commands ("page", "all") led to a BAN of the whole Cache
 		$cacheCmd = intval($cacheCmd);
 		$command = array(
 			$cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
-			'Varnish-Ban-TYPO3-Sitename: ' . tx_varnish_GeneralUtility::getSitename()
+			'Varnish-Ban-TYPO3-Sitename: ' . tx_varnish_generalutility::getSitename()
 		);
 
 		// issue command on every Varnish Server

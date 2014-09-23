@@ -36,7 +36,7 @@
  * @package	TYPO3
  * @subpackage	tx_varnish
  */
-class tx_varnish_GeneralUtility {
+class tx_varnish_generalutility {
 
 	static $extConf;
 

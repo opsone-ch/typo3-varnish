@@ -46,7 +46,7 @@ class tx_varnish_hooks_tslib_fe {
 		// Send Page pid which is used to issue BAN Command against
 		if(t3lib_div::getIndpEnv('TYPO3_REV_PROXY') == 1 || $extConf['alwaysSendTypo3Headers'] == 1) {
 			header('TYPO3-Pid: ' . $parent->id);
-			header('TYPO3-Sitename: ' . tx_varnish_GeneralUtility::getSitename());
+			header('TYPO3-Sitename: ' . tx_varnish_generalutility::getSitename());
 		}
 	}
 

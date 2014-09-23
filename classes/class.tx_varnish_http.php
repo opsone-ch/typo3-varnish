@@ -103,8 +103,6 @@ class tx_varnish_http {
 			CURLOPT_RETURNTRANSFER  => 1,
 		);
 
-		tx_varnish_GeneralUtility::devLog(__FUNCTION__, $curlOptions);
-
 		curl_setopt_array($curlHandle, $curlOptions);
 		curl_multi_add_handle(self::$curlQueue, $curlHandle);
 
@@ -132,7 +130,7 @@ class tx_varnish_http {
 
 	protected static function runQueue() {
 
-		tx_varnish_GeneralUtility::devLog(__FUNCTION__);
+		tx_varnish_generalutility::devLog(__FUNCTION__);
 
 		$running = null;
 		do {
