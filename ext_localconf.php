@@ -27,7 +27,7 @@ if(!defined('TYPO3_MODE')) die ('Access denied.');
 switch(TYPO3_MODE) {
 	case 'FE':
 		// Typoscript
-		t3lib_extMgm::addTypoScriptSetup('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/static/setup.txt">');
+		t3lib_extMgm::addTypoScript('varnish', 'setup', '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/static/setup.txt">', 43);
 
 		// Hooks
 		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_tslib_fe.php:tx_varnish_hooks_tslib_fe->sendHeader';
