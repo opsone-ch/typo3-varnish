@@ -83,11 +83,13 @@ class tx_varnish_controller {
 			'Varnish-Ban-TYPO3-Sitename: ' . tx_varnish_generalutility::getSitename()
 		);
 
+		$method = self::$extConf['banRequestMethod'] ? self::$extConf['banRequestMethod'] : "BAN";
+
 		// issue command on every Varnish Server
 		/** @var $varnishHttp tx_varnish_http */
 		$varnishHttp = t3lib_div::makeInstance('tx_varnish_http');
 		foreach(self::$extConf['instanceHostnames'] as $currentHost) {
-			$varnishHttp::addCommand('BAN', $currentHost, $command);
+			$varnishHttp::addCommand($method, $currentHost, $command);
 		}
 
 	}
