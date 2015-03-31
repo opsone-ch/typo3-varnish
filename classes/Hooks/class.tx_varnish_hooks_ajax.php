@@ -38,6 +38,12 @@ class tx_varnish_hooks_ajax {
 	 * Ban all pages from varnish cache.
 	 */
 	public function banAll() {
+		# log command
+		if (is_object($GLOBALS['BE_USER'])) {
+			$GLOBALS['BE_USER']->writelog(3, 1, 0, 0, 'User %s has cleared the Varnish cache', array($GLOBALS['BE_USER']->user['username']));
+		}
+
+		# issue command
 		$varnishController = t3lib_div::makeInstance('tx_varnish_controller');
 		$varnishController->clearCache('all');
 	}
