@@ -40,7 +40,6 @@ class tx_varnish_generalutility {
 
 	static $extConf;
 
-
 	/**
 	 * Load extension configuration
 	 */
@@ -48,6 +47,10 @@ class tx_varnish_generalutility {
 		// load Extension Configuration
 		if(!isset(self::$extConf)) {
 			self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
+
+			if(!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish'])) {
+				self::$extConf = array_merge(self::$extConf, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish']);
+			}
 		}
 	}
 
@@ -73,10 +76,21 @@ class tx_varnish_generalutility {
 	public static function getSitename() {
 		return t3lib_div::hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
 	}
+
+	public static function getProperty($key) {
+		self::loadExtConf();
+
+		if(isset(self::$extConf[$key])) {
+			$value = self::$extConf[$key];
+		} else {
+			$value = NULL;
+		}
+
+		return $value;
+	}
 }
 
 global $TYPO3_CONF_VARS;
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Utilities/class.tx_varnish_generalutility.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Utilities/class.tx_varnish_generalutility.php']);
 }
-?>
