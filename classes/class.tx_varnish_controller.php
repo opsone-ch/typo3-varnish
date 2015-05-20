@@ -32,33 +32,26 @@
  */
 
 class tx_varnish_controller {
-
-
 	/**
-	 * TYPO3 Extension Configuration
-	 *
-	 * @var Array
+	 * List of hostnames
+	 * @var array
 	 */
-
-	public static $extConf;
-
+	protected $instanceHostnames = array();
 
 	/**
 	 * Load Configuration and assing default values
 	 */
 
 	public function __construct() {
-
-		// load Extension Configuration 
-		self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
-
 		// assign default values
-		if(empty(self::$extConf['instanceHostnames'])) {
-			self::$extConf['instanceHostnames'] = t3lib_div::getIndpEnv('HTTP_HOST');
+		if(!tx_varnish_generalutility::getProperty('instanceHostnames')) {
+			$hostnames = t3lib_div::getIndpEnv('HTTP_HOST');
+		} else {
+			$hostnames = tx_varnish_generalutility::getProperty('instanceHostnames');
 		}
 
 		// convert Comma separated List into a Array 
-		self::$extConf['instanceHostnames'] = t3lib_div::trimExplode(',', self::$extConf['instanceHostnames']);
+		$this->hostnames = t3lib_div::trimExplode(',', $hostnames, TRUE);
 
 	}
 
@@ -83,12 +76,12 @@ class tx_varnish_controller {
 			'Varnish-Ban-TYPO3-Sitename: ' . tx_varnish_generalutility::getSitename()
 		);
 
-		$method = self::$extConf['banRequestMethod'] ? self::$extConf['banRequestMethod'] : "BAN";
+		$method = tx_varnish_generalutility::getProperty('banRequestMethod') ? tx_varnish_generalutility::getProperty('banRequestMethod') : "BAN";
 
 		// issue command on every Varnish Server
 		/** @var $varnishHttp tx_varnish_http */
 		$varnishHttp = t3lib_div::makeInstance('tx_varnish_http');
-		foreach(self::$extConf['instanceHostnames'] as $currentHost) {
+		foreach($this->instanceHostnames as $currentHost) {
 			$varnishHttp::addCommand($method, $currentHost, $command);
 		}
 
@@ -100,5 +93,3 @@ global $TYPO3_CONF_VARS;
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/class.tx_varnish_controller.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/class.tx_varnish_controller.php']);
 }
-
-?>
