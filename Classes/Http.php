@@ -1,4 +1,6 @@
 <?php
+namespace Snowflake\Varnish;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,7 +23,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
+use Snowflake\Varnish\Utilities\GeneralUtility;
 
 /**
  * This class communicates with the varnish server
@@ -30,9 +32,7 @@
  * @package	TYPO3
  * @subpackage	tx_varnish
  */
-
-class tx_varnish_http {
-
+class Http {
 
 	/**
 	 * cURL Multi-Handle Queue
@@ -41,26 +41,20 @@ class tx_varnish_http {
 	 */
 	protected static $curlQueue;
 
-
-
 	/**
 	 * Class constructor
 	 *
-	 *
-	 * @throws Exception
-	 * @return \tx_varnish_http
+	 * @throws \Exception The Exception
+	 * @return Http
 	 */
-
 	public function __construct() {
-
 		// check whether the cURL PHP Extension is loaded
 		if (!extension_loaded('curl')) {
-			throw new Exception('The cURL PHP Extension is required by ext_varnish.');
+			throw new \Exception('The cURL PHP Extension is required by ext_varnish.');
 		}
 
 		// initialize cURL Multi-Handle Queue
 		self::initQueue();
-
 	}
 
 
@@ -69,27 +63,24 @@ class tx_varnish_http {
 	 *
 	 * @return	void
 	 */
-
 	public function __destruct() {
-
 		// execute cURL Multi-Handle Queue
 		self::runQueue();
-
 	}
 
 
 	/**
 	 * Add command to cURL Multi-Handle Queue
 	 *
-	 * @param	String	$method
-	 * @param	String	$url
-	 * @param	String	$header
+	 * @param	string	$method The methodname
+	 * @param	string	$url	The url
+	 * @param	string	$header	The header
+	 *
+	 * @return void
 	 */
-
 	public static function addCommand($method, $url, $header='') {
-
 		// Header is expected as array always
-		if(!is_array($header)) {
+		if (!is_array($header)) {
 			$header = array($header);
 		}
 
@@ -105,49 +96,31 @@ class tx_varnish_http {
 
 		curl_setopt_array($curlHandle, $curlOptions);
 		curl_multi_add_handle(self::$curlQueue, $curlHandle);
-
 	}
-
 
 	/**
 	 * Initialize cURL Multi-Handle Queue
 	 *
 	 * @return	void
 	 */
-
 	protected static function initQueue() {
-
 		self::$curlQueue = curl_multi_init();
-
 	}
 
-
 	/**
-	 * Execute cURL Mutli-Handle Queue
+	 * Execute cURL Multi-Handle Queue
 	 *
 	 * @return	void
 	 */
-
 	protected static function runQueue() {
+		GeneralUtility::devLog(__FUNCTION__);
 
-		tx_varnish_generalutility::devLog(__FUNCTION__);
-
-		$running = null;
+		$running = NULL;
 		do {
 			curl_multi_exec(self::$curlQueue, $running);
-		} while($running);
+		} while ($running);
 
 		// destroy Handle which is not required anymore
 		curl_multi_close(self::$curlQueue);
-
 	}
-
-
 }
-
-global $TYPO3_CONF_VARS;
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/class.tx_varnish_http.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/class.tx_varnish_http.php']);
-}
-
-?>

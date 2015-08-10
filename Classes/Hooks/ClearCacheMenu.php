@@ -1,4 +1,6 @@
 <?php
+namespace Snowflake\Varnish\Hooks;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,7 +23,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
+	use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -30,28 +32,24 @@
  * @package	TYPO3
  * @subpackage	tx_varnish
  */
-
-class tx_varnish_hooks_tcemain {
-
+class ClearCacheMenu implements ClearCacheActionsHookInterface {
 
 	/**
-	 * Clear cache hook
+	 * Add varnish cache clearing to clearcachemenu
 	 *
-	 * @param array $params
-	 * @param t3lib_tceMain $parent
+	 * @param array $cacheActions The action
+	 * @param array $optionValues The values
+	 *
+	 * @return void
 	 */
-	public function clearCachePostProc($params, &$parent) {
-		$varnishController = t3lib_div::makeInstance('tx_varnish_controller');
-		// use either cacheCmd or uid_page
-		$cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
-		$varnishController->clearCache($cacheCmd);
+	public function manipulateCacheActions(&$cacheActions, &$optionValues) {
+		$title = $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_menu');
+		$cacheActions[] = array(
+			'id'    => 'varnish',
+			'title' => $title,
+			'href'  => 'ajax.php?ajaxID=tx_varnish::banAll',
+			'icon'  => '<img src="/' . $GLOBALS['TYPO3_LOADED_EXT']['varnish']['siteRelPath'] . 'ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
+		);
 	}
 
 }
-
-global $TYPO3_CONF_VARS;
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_tcemain.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_tcemain.php']);
-}
-
-?>

@@ -1,4 +1,5 @@
 <?php
+namespace Snowflake\Varnish\Hooks;
 /***************************************************************
 *  Copyright notice
 *
@@ -21,7 +22,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -30,28 +31,22 @@
  * @package	TYPO3
  * @subpackage	tx_varnish
  */
-
-class tx_varnish_hooks_ajax {
-
+class DataHandler {
 
 	/**
-	 * Ban all pages from varnish cache.
+	 * Clear cache hook
+	 *
+	 * @param array $params Parameter
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $parent Parent object
+	 *
+	 * @return void
 	 */
-	public function banAll() {
-		# log command
-		if (is_object($GLOBALS['BE_USER'])) {
-			$GLOBALS['BE_USER']->writelog(3, 1, 0, 0, 'User %s has cleared the Varnish cache', array($GLOBALS['BE_USER']->user['username']));
-		}
-
-		# issue command
-		$varnishController = t3lib_div::makeInstance('tx_varnish_controller');
-		$varnishController->clearCache('all');
+	public function clearCachePostProc(array $params, \TYPO3\CMS\Core\DataHandling\DataHandler &$parent) {
+		/** @var \Snowflake\Varnish\VarnishController $varnishController */
+		$varnishController = GeneralUtility::makeInstance('\\Snowflake\\Varnish\\VarnishController');
+		// use either cacheCmd or uid_page
+		$cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
+		$varnishController->clearCache($cacheCmd);
 	}
 
 }
-
-global $TYPO3_CONF_VARS;
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_ajax.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_ajax.php']);
-}
-?>
