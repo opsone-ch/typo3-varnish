@@ -1,6 +1,6 @@
 /*
  * snowflake Varnish Configuration for TYPO3
- * 
+ *
  * (c) 2013 snowflake productions gmbh <varnish@snowflake.ch>
  * All rights reserved
  *

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>language labels for varnish</description>
+		<type>module</type>
+		<csh_table></csh_table>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="be_clear_cache_menu">Clear Varnish Cache</label>
+			<label index="extconf_instancehostnames">Varnish Servers:By default, the Hostname of your Backend Connection is used to connect to Varnish which is usually fine. If your Varnish Server Hostname is different from your Backend Hostname or you run multiple Varnish Instances add those Hostnames here as a Comma separated List.</label>
+			<label index="extconf_enabledevlog">Debug:Write Debug Messages about Varnish Actions to devLog.</label>
+			<label index="extconf_alwayssendtypo3headers">Always send TYPO3 Headers:Forces TYPO3 to always send TYPO3 cache specific headers. Is also set on the fly according [SYS][reverseProxyIP] and therefore usually not required.</label>
+			<label index="extconf_banRequestMethod">HTTP request method for banning:By default the BAN request is sent to varnish to clear the cache. This is a nonstandard method and may be blocked by your network. In that case, choose another one (PURGE is standardised).</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="be_clear_cache_menu">Varnish Cache leeren</label>
+			<label index="extconf_instancehostnames">Varnish Server:Standardmässig wird der Hostname des Backends als Varnish-Server benutzt. Wenn Ihr Varnish-Server Hostname nicht Ihr TYPO3 Backend Hostname ist, oder Sie mehrere Varnish Instanzen benutzen, tragen Sie diese hier bitte mit Komma getrennt ein.</label>
+			<label index="extconf_enabledevlog">Debug:Trage Varnish-Actions in das DevLog ein.</label>
+			<label index="extconf_alwayssendtypo3headers">Header immer senden:Erzwingt das Senden der TYPO3 cache spezifischen Header. Wird auch anhand [SYS][reverseProxyIP] gesetzt und ist deshalb normalerweise nicht nötig.</label>
+		</languageKey>
+	</data>
+</T3locallang>

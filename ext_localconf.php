@@ -22,22 +22,23 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if(!defined('TYPO3_MODE')) die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+	die ('Access denied.');
+}
 
-switch(TYPO3_MODE) {
+switch (TYPO3_MODE) {
 	case 'FE':
 		// Typoscript
-		t3lib_extMgm::addTypoScript('varnish', 'setup', '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/static/setup.txt">', 43);
+		TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('varnish', 'setup', '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
 
 		// Hooks
-		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_tslib_fe.php:tx_varnish_hooks_tslib_fe->sendHeader';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
 		break;
 	case 'BE':
 		// Hooks
-		$TYPO3_CONF_VARS['BE']['AJAX']['tx_varnish::banAll'] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_ajax.php:tx_varnish_hooks_ajax->banAll';
-		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_clearcachemenu.php:tx_varnish_hooks_clearcachemenu';
-		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'EXT:varnish/classes/Hooks/class.tx_varnish_hooks_tcemain.php:tx_varnish_hooks_tcemain->clearCachePostProc';
-
+		$TYPO3_CONF_VARS['BE']['AJAX']['tx_varnish::banAll'] = 'Snowflake\\Varnish\\Hooks\\Ajax->banAll';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'Snowflake\\Varnish\\Hooks\\ClearCacheMenu';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
 		break;
 }
 

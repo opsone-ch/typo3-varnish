@@ -1,4 +1,6 @@
 <?php
+namespace Snowflake\Varnish\Hooks;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -21,7 +23,8 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-
+	use TYPO3\CMS\Core\Utility\GeneralUtility;
+	use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -30,31 +33,24 @@
  * @package	TYPO3
  * @subpackage	tx_varnish
  */
-
-class tx_varnish_hooks_tslib_fe {
-
+class Frontend {
 
 	/**
-	 * contentPostProc-output hook to add typo3-pid header
+	 * ContentPostProc-output hook to add typo3-pid header
 	 *
-	 * @param array    $parameters
-	 * @param tslib_fe $parent
+	 * @param array $parameters Parameter
+	 * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $parent The parent object
+	 *
+	 * @return void
 	 */
-	public function sendHeader(array $parameters, tslib_fe $parent) {
+	public function sendHeader(array $parameters, TypoScriptFrontendController $parent) {
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
 
 		// Send Page pid which is used to issue BAN Command against
-		if(t3lib_div::getIndpEnv('TYPO3_REV_PROXY') == 1 || $extConf['alwaysSendTypo3Headers'] == 1) {
+		if (GeneralUtility::getIndpEnv('TYPO3_REV_PROXY') == 1 || $extConf['alwaysSendTypo3Headers'] == 1) {
 			header('TYPO3-Pid: ' . $parent->id);
-			header('TYPO3-Sitename: ' . tx_varnish_generalutility::getSitename());
+			header('TYPO3-Sitename: ' . \Snowflake\Varnish\Utilities\GeneralUtility::getSitename());
 		}
 	}
 
 }
-
-global $TYPO3_CONF_VARS;
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_tslib_fe.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/varnish/classes/Hooks/class.tx_varnish_hooks_tslib_fe.php']);
-}
-
-?>
