@@ -47,14 +47,13 @@ class VarnishController {
 	 */
 	public function __construct() {
 		// assign Varnish daemon hostnames
-		if (empty(\Snowflake\Varnish\Utilities\GeneralUtility::getProperty('instanceHostnames'))) {
+		$this->instanceHostnames = \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('instanceHostnames');
+		if (empty($this->instanceHostnames)) {
 			$this->instanceHostnames = GeneralUtility::getIndpEnv('HTTP_HOST');
-		} else {
-			$this->instanceHostnames = \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('instanceHostnames');
 		}
 
 		// convert Comma separated List into a Array
-		$this->instanceHostnames = GeneralUtility::trimExplode(',', $hostnames, TRUE);
+		$this->instanceHostnames = GeneralUtility::trimExplode(',', $this->instanceHostnames, TRUE);
 	}
 
 
