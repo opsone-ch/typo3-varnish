@@ -36,29 +36,25 @@ class VarnishController {
 
 
 	/**
-	 * TYPO3 Extension Configuration
-	 *
+	 * List of Varnish hostnames
 	 * @var Array
 	 */
-	public static $extConf;
+	protected static $instanceHostnames = array();
 
 
 	/**
 	 * Load Configuration and assing default values
 	 */
 	public function __construct() {
-
-		// load Extension Configuration
-		self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
-
-		// assign default values
-		if (empty(self::$extConf['instanceHostnames'])) {
-			self::$extConf['instanceHostnames'] = GeneralUtility::getIndpEnv('HTTP_HOST');
+		// assign Varnish daemon hostnames
+		if (empty(\Snowflake\Varnish\Utilities\GeneralUtility::getProperty('instanceHostnames'))) {
+			$this->instanceHostnames = GeneralUtility::getIndpEnv('HTTP_HOST');
+		} else {
+			$this->instanceHostnames = \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('instanceHostnames');
 		}
 
 		// convert Comma separated List into a Array
-		self::$extConf['instanceHostnames'] = GeneralUtility::trimExplode(',', self::$extConf['instanceHostnames']);
-
+		$this->instanceHostnames = GeneralUtility::trimExplode(',', $hostnames, TRUE);
 	}
 
 
@@ -81,13 +77,12 @@ class VarnishController {
 			$cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
 			'Varnish-Ban-TYPO3-Sitename: ' . \Snowflake\Varnish\Utilities\GeneralUtility::getSitename()
 		);
-
-		$method = self::$extConf['banRequestMethod'] ? self::$extConf['banRequestMethod'] : 'BAN';
+		$method = \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('banRequestMethod') ? \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('banRequestMethod') : 'BAN';
 
 		// issue command on every Varnish Server
 		/** @var $varnishHttp \Snowflake\Varnish\Http */
 		$varnishHttp = GeneralUtility::makeInstance('\\Snowflake\\Varnish\\Http');
-		foreach (self::$extConf['instanceHostnames'] as $currentHost) {
+		foreach ($this->instanceHostnames as $currentHost) {
 			$varnishHttp::addCommand($method, $currentHost, $command);
 		}
 	}

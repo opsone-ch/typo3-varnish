@@ -44,10 +44,8 @@ class Frontend {
 	 * @return void
 	 */
 	public function sendHeader(array $parameters, TypoScriptFrontendController $parent) {
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
-
 		// Send Page pid which is used to issue BAN Command against
-		if (GeneralUtility::getIndpEnv('TYPO3_REV_PROXY') == 1 || $extConf['alwaysSendTypo3Headers'] == 1) {
+		if (GeneralUtility::getIndpEnv('TYPO3_REV_PROXY') == 1 || \Snowflake\Varnish\Utilities\GeneralUtility::getProperty('alwaysSendTypo3Headers') == 1) {
 			header('TYPO3-Pid: ' . $parent->id);
 			header('TYPO3-Sitename: ' . \Snowflake\Varnish\Utilities\GeneralUtility::getSitename());
 		}

@@ -50,6 +50,10 @@ class GeneralUtility {
 		// load Extension Configuration
 		if (!isset(self::$extConf)) {
 			self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
+
+			if(!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish'])) {
+				self::$extConf = array_merge(self::$extConf, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish']);
+			}
 		}
 	}
 
@@ -76,5 +80,24 @@ class GeneralUtility {
 	 */
 	public static function getSitename() {
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
+	}
+
+	/**
+	 * getProperty from extension configuration
+	 *
+	 * @param string $key property name
+	 *
+	 * @return mixed
+	 */
+	public static function getProperty($key) {
+		self::loadExtConf();
+
+		if(isset(self::$extConf[$key])) {
+			$value = self::$extConf[$key];
+		} else {
+			$value = NULL;
+		}
+
+		return $value;
 	}
 }
