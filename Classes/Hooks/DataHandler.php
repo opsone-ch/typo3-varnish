@@ -43,7 +43,7 @@ class DataHandler {
 	 */
 	public function clearCachePostProc(array $params, \TYPO3\CMS\Core\DataHandling\DataHandler &$parent) {
 		/** @var \Snowflake\Varnish\VarnishController $varnishController */
-		$varnishController = GeneralUtility::makeInstance('\\Snowflake\\Varnish\\VarnishController');
+		$varnishController = GeneralUtility::makeInstance('Snowflake\\Varnish\\VarnishController');
 		// use either cacheCmd or uid_page
 		$cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
 		$varnishController->clearCache($cacheCmd);
