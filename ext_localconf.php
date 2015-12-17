@@ -36,7 +36,11 @@ switch (TYPO3_MODE) {
 		break;
 	case 'BE':
 		// Hooks
-		$TYPO3_CONF_VARS['BE']['AJAX']['tx_varnish::banAll'] = 'Snowflake\\Varnish\\Hooks\\Ajax->banAll';
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
+				'tx_varnish::banAll',
+				'Snowflake\\Varnish\\Hooks\\Ajax->banAll',
+				false
+		);
 		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'Snowflake\\Varnish\\Hooks\\ClearCacheMenu';
 		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
 		break;
