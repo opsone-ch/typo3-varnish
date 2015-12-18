@@ -80,7 +80,7 @@ class VarnishController {
 
 		// issue command on every Varnish Server
 		/** @var $varnishHttp \Snowflake\Varnish\Http */
-		$varnishHttp = GeneralUtility::makeInstance('\\Snowflake\\Varnish\\Http');
+		$varnishHttp = GeneralUtility::makeInstance('Snowflake\\Varnish\\Http');
 		foreach ($this->instanceHostnames as $currentHost) {
 			$varnishHttp::addCommand($method, $currentHost, $command);
 		}

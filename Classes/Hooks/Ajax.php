@@ -48,7 +48,7 @@ class Ajax {
 		}
 
 		/** @var \Snowflake\Varnish\VarnishController $varnishController */
-		$varnishController = GeneralUtility::makeInstance('\\Snowflake\\Varnish\\VarnishController');
+		$varnishController = GeneralUtility::makeInstance('Snowflake\\Varnish\\VarnishController');
 		$varnishController->clearCache('all');
 	}
 

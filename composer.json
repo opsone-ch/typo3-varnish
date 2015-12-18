@@ -1,0 +1,16 @@
+{
+  "name": "Snowflake/varnish",
+  "description": "Varnish extension for TYPO3 BE",
+  "version": "dev-dkd_v1_typo3_v7",
+  "require": {
+    "php": ">=5.3.0 <6.0",
+    "typo3/cms-core": ">=4.5.0,<8.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Snowflake\\Varnish\\": "typo3conf/ext/varnish/Classes"
+    }
+  }
+}
