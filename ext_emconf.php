@@ -15,11 +15,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'This extension is managed on GitHub. Feel free to get in touch at https://github.com/snowflakech/typo3-varnish/',
 	'category' => 'misc',
 	'shy' => 0,
-	'version' => '1.0.7',
+	'version' => '2.0.0',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.5.0-7.6.99',
+			'php' => '5.6.0-0.0.0',
+			'typo3' => '7.0.0-7.6.99',
 		),
 		'conflicts' => array(
 		),
