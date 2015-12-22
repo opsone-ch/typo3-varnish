@@ -47,7 +47,7 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface {
 		$cacheActions[] = array(
 			'id'    => 'varnish',
 			'title' => $title,
-			'href'  => 'ajax.php?ajaxID=tx_varnish::banAll',
+			'href'  => 'index.php?ajaxID=tx_varnish::banAll',
 			'icon'  => '<img src="/' . $GLOBALS['TYPO3_LOADED_EXT']['varnish']['siteRelPath'] . 'ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
 		);
 	}
