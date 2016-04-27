@@ -43,6 +43,11 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface {
 	 * @return void
 	 */
 	public function manipulateCacheActions(&$cacheActions, &$optionValues) {
+		// show menu button only admins
+        	if (!$GLOBALS['BE_USER']->isAdmin()) {
+        		return;
+        	}
+        	
 		$title = $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_menu');
 		$cacheActions[] = array(
 			'id'    => 'varnish',
