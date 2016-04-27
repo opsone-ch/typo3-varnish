@@ -32,7 +32,7 @@ switch (TYPO3_MODE) {
 		TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('varnish', 'setup', '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
 
 		// Hooks
-		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
+		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
 		break;
 	case 'BE':
 		// Hooks
