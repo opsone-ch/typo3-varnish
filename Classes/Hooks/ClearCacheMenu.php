@@ -48,12 +48,12 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface {
         		return;
         	}
         	
-		$title = $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_menu');
 		$cacheActions[] = array(
 			'id'    => 'varnish',
-			'title' => $title,
+			'title' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title'),
+			'description' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description'),
 			'href'  => 'index.php?ajaxID=tx_varnish::banAll',
-			'icon'  => '<img src="/' . $GLOBALS['TYPO3_LOADED_EXT']['varnish']['siteRelPath'] . 'ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
+			'icon'  => '<img src="/typo3conf/ext/varnish/ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
 		);
 	}
 
