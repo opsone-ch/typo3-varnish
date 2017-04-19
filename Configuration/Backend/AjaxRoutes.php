@@ -1,8 +1,9 @@
 <?php
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012  Andri Steiner  <support@snowflake.ch>
+*  (c) 2017  Andri Steiner  <team@snowflakeops.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,23 +23,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
-}
-
-switch (TYPO3_MODE) {
-	case 'FE':
-		// Typoscript
-		TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('varnish', 'setup', '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
-
-		// Hooks
-		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
-		break;
-	case 'BE':
-		// Hooks
-		$TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = 'Snowflake\\Varnish\\Hooks\\ClearCacheMenu';
-		$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
-		break;
-}
+return [
+	'varnish_banall' => [
+		'path' => '/varnish/banall',
+		'access' => 'admin',
+		'target' => Snowflake\Varnish\Hooks\Ajax::class . '::banAll',
+	],
+];
 
 ?>
