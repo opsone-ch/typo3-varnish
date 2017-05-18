@@ -23,7 +23,10 @@ namespace Snowflake\Varnish\Hooks;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-	use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
+
+use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -48,12 +51,12 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface {
         		return;
         	}
         	
-		$title = $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_menu');
 		$cacheActions[] = array(
-			'id'    => 'varnish',
-			'title' => $title,
-			'href'  => 'index.php?ajaxID=tx_varnish::banAll',
-			'icon'  => '<img src="/' . $GLOBALS['TYPO3_LOADED_EXT']['varnish']['siteRelPath'] . 'ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
+			'id'          => 'varnish',
+			'title'       => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title'),
+			'description' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description'),
+			'href'        => \TYPO3\CMS\Backend\Utility\BackendUtility::getAjaxUrl('varnish_banall'),
+			'icon'        => '<img src="/typo3conf/ext/varnish/ext_icon.gif" title="' . $title . '" alt="' . $title . '" />',
 		);
 	}
 
