@@ -66,7 +66,10 @@ class VarnishController {
 	 * @return	void
 	 */
 	public function clearCache($cacheCmd) {
+		// if cacheCmd is -1, were in a draft workspace and skip Varnish clearing all together
+		if ($cacheCmd===-1) return;
 
+		// Log debug infos
 		\Snowflake\Varnish\Utilities\GeneralUtility::devLog('clearCache', array('cacheCmd' => $cacheCmd));
 
 		// if cacheCmd is a single Page, issue BAN Command on this pid
