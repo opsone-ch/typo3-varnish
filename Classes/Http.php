@@ -4,7 +4,7 @@ namespace Snowflake\Varnish;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012  Andri Steiner  <support@snowflake.ch>
+*  (c) 2012  Andri Steiner  <team@snowflakeops.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ use Snowflake\Varnish\Utilities\GeneralUtility;
 /**
  * This class communicates with the varnish server
  *
- * @author	Andri Steiner  <support@snowflake.ch>
+ * @author	Andri Steiner  <team@snowflakeops.ch>
  * @package	TYPO3
  * @subpackage	tx_varnish
  */

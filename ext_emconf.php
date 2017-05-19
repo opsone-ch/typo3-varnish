@@ -5,7 +5,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Varnish Connector',
-	'description' => 'This extension is managed on GitHub. Feel free to get in touch at https://github.com/snowflakech/typo3-varnish/',
+	'description' => 'This extension is managed on GitHub. Feel free to get in touch at https://github.com/snowflakeOps/typo3-varnish/',
 	'category' => 'misc',
 	'shy' => 0,
 	'version' => '2.1.0',
@@ -21,6 +21,6 @@ $EM_CONF[$_EXTKEY] = array(
 	),
 	'state' => 'stable',
 	'author' => 'Andri Steiner',
-	'author_email' => 'varnish@snowflake.ch',
-	'author_company' => 'snowflake',
+	'author_email' => 'team@snowflakeops.ch',
+	'author_company' => 'snowflake Ops AG',
 );

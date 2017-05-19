@@ -1,5 +1,5 @@
 {
-  "name": "snowflake/varnish",
+  "name": "snowflakeops/varnish",
   "type": "typo3-cms-extension",
   "description": "Varnish extension for TYPO3",
   "keywords": [
@@ -7,18 +7,17 @@
     "extension",
     "scaffold"
   ],
-  "homepage": "https://snowflake.ch/hosting/",
+  "homepage": "https://snowflakeops.ch/",
   "authors": [
     {
       "name": "Andri Steiner",
-      "email": "varnish@snowflake.ch"
+      "email": "team@snowflakeops.ch"
     }
   ],
   "license": "GPL-2.0+",
-  "version": "2.0.0",
   "require": {
     "php": ">=5.6",
-    "typo3/cms-core": ">=7.6.0,<8"
+    "typo3/cms-core": ">=7.6.0,>=8.6.0"
   },
   "require-dev": {
   },
