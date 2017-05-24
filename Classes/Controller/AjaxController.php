@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowflake\Varnish\Hooks;
+namespace Snowflake\Varnish\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -24,9 +24,8 @@ namespace Snowflake\Varnish\Hooks;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Snowflake\Varnish\Controller\VarnishController;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -36,32 +35,28 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * @package    TYPO3
  * @subpackage    tx_varnish
  */
-class ClearCacheMenu implements ClearCacheActionsHookInterface
+class AjaxController
 {
 
 
     /**
-     * Add varnish cache clearing to clearcachemenu
-     *
-     * @param array $cacheActions The action
-     * @param array $optionValues The values
+     * Ban all pages from varnish cache.
      *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
-    public function manipulateCacheActions(&$cacheActions, &$optionValues)
+    public function banAll()
     {
-        // show menu button only admins
-        if (!$GLOBALS['BE_USER']->isAdmin()) {
-            return;
+        # log command
+        if (is_object($GLOBALS['BE_USER'])) {
+            $GLOBALS['BE_USER']->writelog(3, 1, 0, 0, 'User %s has cleared the Varnish cache',
+                array ($GLOBALS['BE_USER']->user['username']));
         }
 
-        $cacheActions[] = array (
-            'id' => 'varnish',
-            'title' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title'),
-            'description' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description'),
-            'href' => BackendUtility::getAjaxUrl('varnish_banall'),
-            'icon' => '<img src="/typo3conf/ext/varnish/ext_icon.gif" title="Varnish Ban All" alt="Varnish Extension Icon" />',
-        );
+        /** @var VarnishController $varnishController */
+        $varnishController = GeneralUtility::makeInstance(VarnishController::class);
+        $varnishController->clearCache('all');
     }
 
 }
