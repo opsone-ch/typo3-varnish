@@ -36,6 +36,16 @@ switch (TYPO3_MODE) {
         $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
         break;
     case 'BE':
+	// Icon
+	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+		\TYPO3\CMS\Core\Imaging\IconRegistry::class
+	);
+	$iconRegistry->registerIcon(
+		'tx-varnish-logo',
+		\TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+		['source' => 'EXT:varnish/ext_icon.gif']
+	);
+
         // Hooks
         $TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Snowflake\Varnish\Hooks\ClearCacheMenu::class;
         $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
