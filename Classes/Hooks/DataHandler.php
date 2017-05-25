@@ -50,7 +50,7 @@ class DataHandler
      *
      * @noinspection PhpUnusedParameterInspection $parent
      */
-    public function clearCachePostProc(array $params, DataHandler $parent)
+    public function clearCachePostProc(array $params, \TYPO3\CMS\Core\DataHandling\DataHandler $parent)
     {
 
         /** @var VarnishController $varnishController */

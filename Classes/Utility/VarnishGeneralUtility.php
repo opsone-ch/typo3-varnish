@@ -69,7 +69,7 @@ class VarnishGeneralUtility
     protected static function loadExtConf()
     {
         // load Extension Configuration
-        if (null !== self::$extConf) {
+        if (empty(self::$extConf)) {
             self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
 
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish'])) {
