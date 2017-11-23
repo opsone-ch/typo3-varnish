@@ -127,7 +127,7 @@ sub vcl_fetch {
 	}
 
 	# Cache static files
-	if (req.url ~ "^[^?]*\.(css|js|htc|txt|swf|flv|pdf|gif|jpe?g|png|ico|woff|ttf|eot|otf|xml|md5|json)($|\?)") {
+	if (req.url ~ "^[^?]*\.(css|js|gif|jpe?g|png|ico|bmp|tif?|eps|woff?|ttf|eot|otf|xml|md5|json|htc|pdf|txt|rtf|doc?|xls?|ppt?|sxw|odt|odf|csv|msg|mht|dot|epub|htm?|swf|flv|mid|mp3|wav)($|\?)") {
 		return (deliver);
 	}
 
