@@ -126,11 +126,6 @@ sub vcl_fetch {
 		return (hit_for_pass);
 	}
 
-	# Cache static files
-	if (req.url ~ "^[^?]*\.(css|js|htc|txt|swf|flv|pdf|gif|jpe?g|png|ico|woff|ttf|eot|otf|xml|md5|json)($|\?)") {
-		return (deliver);
-	}
-
 	# Cache static Pages
 	if (beresp.http.TYPO3-Pid && beresp.http.Pragma == "public") {
 		unset beresp.http.Set-Cookie;
