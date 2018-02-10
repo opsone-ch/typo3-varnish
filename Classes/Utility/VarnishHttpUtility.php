@@ -43,6 +43,12 @@ class VarnishHttpUtility
      */
     protected static $curlQueue;
 
+    /*
+     * Array of individual curl handles
+     *
+     * @var Array
+     */
+    protected static $curlHandles;
 
     /**
      * Class constructor
@@ -91,12 +97,18 @@ class VarnishHttpUtility
 
         // create Handle and at it to the Multi-Handle Queue
         $curlHandle = curl_init();
+        self::$curlHandles[] = $curlHandle;
         $curlOptions = array (
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => $header,
             CURLOPT_TIMEOUT => 1,
             CURLOPT_RETURNTRANSFER => 1,
+            # If your varnish is behind proxy working with 302 redirects cUrl should follow it
+            CURLOPT_FOLLOWLOCATION => 1,
+            # Especially in development you might have only a self signed SSL certificate
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_SSL_VERIFYHOST => 0,
         );
 
         curl_setopt_array($curlHandle, $curlOptions);
@@ -124,10 +136,16 @@ class VarnishHttpUtility
     protected static function runQueue()
     {
         VarnishGeneralUtility::devLog(__FUNCTION__);
-
         $running = null;
         do {
             curl_multi_exec(self::$curlQueue, $running);
+
+            $info = curl_multi_info_read(self::$curlQueue);
+            // cUrl request had errors
+            if ($info !== false) {
+                VarnishGeneralUtility::devLog(__FUNCTION__ . ': curl_multi_info_read', $info);
+                VarnishGeneralUtility::devLog(__FUNCTION__ . ': curl_multi_info_read', array('msg' => curl_error($info['handle'])));
+            }
         } while ($running);
 
         // destroy Handle which is not required anymore
