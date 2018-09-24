@@ -55,23 +55,15 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
             return;
         }
 
-        if (version_compare(TYPO3_version, '8.7', '>=')) {
-            $cacheActions[] = array (
-                'id' => 'varnish',
-                'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title',
-                'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description',
-                'href' => BackendUtility::getAjaxUrl('varnish_banall'),
-                'iconIdentifier' => 'tx-varnish-logo',
-            );
-        } else if (version_compare(TYPO3_version, '7.6', '>=')) {
-            $cacheActions[] = array (
-                'id' => 'varnish',
-                'title' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title'),
-                'description' => $GLOBALS['LANG']->sL('LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description'),
-                'href' => BackendUtility::getAjaxUrl('varnish_banall'),
-                'icon' => '<img src="/typo3conf/ext/varnish/ext_icon.gif" title="Varnish Ban All" alt="Varnish Extension Icon" />',
-            );
-        }
+        /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
+        $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
+        $cacheActions[] = array (
+            'id' => 'varnish',
+            'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title',
+            'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description',
+            'href' => $uriBuilder->buildUriFromRoute('ajax_varnish_banall'),
+            'iconIdentifier' => 'tx-varnish-logo',
+        );
 
     }
 

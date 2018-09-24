@@ -38,7 +38,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class AjaxController
 {
 
-
     /**
      * Ban all pages from varnish cache.
      *
@@ -46,7 +45,7 @@ class AjaxController
      *
      * @throws \InvalidArgumentException
      */
-    public function banAll()
+    public function banAll($request, $response)
     {
         # log command
         if (is_object($GLOBALS['BE_USER'])) {
@@ -57,6 +56,7 @@ class AjaxController
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         $varnishController->clearCache('all');
+        return($response->withHeader('Content-Type', 'text/html'));
     }
 
 }
