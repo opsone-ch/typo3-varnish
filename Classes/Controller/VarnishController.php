@@ -101,4 +101,28 @@ class VarnishController
             $varnishHttp::addCommand($method, $currentHost, $command);
         }
     }
+
+    /**
+     * ClearCache by setting a specific Ban header.
+     *
+     * @param $key
+     * @param $value
+     */
+    public function clearCustomCache($key, $value)
+    {
+        // Log debug infos
+        VarnishGeneralUtility::devLog('clearCache', array (
+            'cacheCmdKey' => $key, 'cacheCmdValue' => $value
+        ));
+
+        $command = 'Varnish-Ban-' . $key . ': ' . $value;
+        $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
+
+        // issue command on every Varnish Server
+        /** @var $varnishHttp VarnishHttpUtility */
+        $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
+        foreach ($this->instanceHostnames as $currentHost) {
+            $varnishHttp::addCommand($method, $currentHost, $command);
+        }
+    }
 }
