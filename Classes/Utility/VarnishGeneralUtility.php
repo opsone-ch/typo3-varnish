@@ -74,7 +74,6 @@ class VarnishGeneralUtility
         if (version_compare(TYPO3_version, '9', '>=')) {
             if (empty(self::$extConf)) {
                 self::$extConf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('varnish');
-                error_log(print_r(self::$extConf, true), 3, '/home/nine/tmp/debug');
             }
         } else if (version_compare(TYPO3_version, '8', '>=')) {
             self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
