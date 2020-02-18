@@ -1,5 +1,4 @@
 <?php
-
 namespace Snowflake\Varnish\Controller;
 
 /***************************************************************
@@ -24,8 +23,11 @@ namespace Snowflake\Varnish\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Snowflake\Varnish\Controller\VarnishController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Snowflake\Varnish\Controller\VarnishController;
 
 
 /**
@@ -41,11 +43,12 @@ class AjaxController
     /**
      * Ban all pages from varnish cache.
      *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
+     * @param ServerRequestInterface $request the current request
+     * @param ResponseInterface $response the current response
+     * @return ResponseInterface
+     * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
      */
-    public function banAll($request, $response)
+    public function banAll(ServerRequestInterface $request): ResponseInterface
     {
         # log command
         if (is_object($GLOBALS['BE_USER'])) {
@@ -56,7 +59,9 @@ class AjaxController
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         $varnishController->clearCache('all');
-        return($response->withHeader('Content-Type', 'text/html'));
+        return new JsonResponse();
     }
 
 }
+
+

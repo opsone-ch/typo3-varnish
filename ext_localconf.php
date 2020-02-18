@@ -33,7 +33,7 @@ switch (TYPO3_MODE) {
             '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
 
         // Hooks
-        $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
         break;
     case 'BE':
 	// Icon
@@ -47,7 +47,7 @@ switch (TYPO3_MODE) {
 	);
 
         // Hooks
-        $TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Snowflake\Varnish\Hooks\ClearCacheMenu::class;
-        $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Snowflake\Varnish\Hooks\ClearCacheMenu::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
         break;
 }
