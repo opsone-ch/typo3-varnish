@@ -30,13 +30,13 @@ Varnish
 	Varnish is the fastest, most flexible and cost efficient web accelerator available for your online business. It speeds up your website and boosts user loyalty and customer conversion rate and helps to save hosting costs.
 
 :Copyright:
-	snowflake Ops AG, 2013 - 2017
+	Ops One AG, 2013 - 2020
 
 :Author:
-	Andri Steiner, snowflake Ops AG
+	Andri Steiner, Ops One AG
 
 :Email:
-	team@snowflakeops.ch
+	team@opsone.ch
 
 :License:
 	This document is published under the Open Content License
@@ -170,15 +170,15 @@ AJAX calls.
 Support
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please post questions to TYPO3 Slack (https://typo3.slack.com) or the Forum (https://forum.typo3.org).
+Please post questions to TYPO3 Slack (https://typo3.slack.com) or the Forum (https://talk.typo3.org).
 
-Commercial support and further consulting is available from snowflake Ops AG.
-Feel free to contact us at team@snowflakeops.ch if you need commercial support.
+Commercial support and further consulting is available from Ops One AG.
+Feel free to contact us at team@opsone.ch if you need commercial support.
 
 
 Development
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This extension is managed on GitHub. Feel free to get in touch at
-https://github.com/snowflakeOps/typo3-varnish/.
+https://gitlab.com/opsone_ch/typo3/varnish/.
 
