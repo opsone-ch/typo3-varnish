@@ -4,7 +4,7 @@ use TYPO3\CMS\Backend\Controller;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2017  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,6 +28,6 @@ return [
     'varnish_banall' => [
         'path' => '/varnish/banall',
         'access' => 'admin',
-        'target' => \Snowflake\Varnish\Controller\AjaxController::class . '::banAll',
+        'target' => \Opsone\Varnish\Controller\AjaxController::class . '::banAll',
     ],
 ];

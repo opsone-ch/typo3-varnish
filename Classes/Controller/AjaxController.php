@@ -1,10 +1,10 @@
 <?php
-namespace Snowflake\Varnish\Controller;
+namespace Opsone\Varnish\Controller;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2012  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,13 +27,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Snowflake\Varnish\Controller\VarnishController;
+use Opsone\Varnish\Controller\VarnishController;
 
 
 /**
  * This class contains required hooks which are called by TYPO3
  *
- * @author    Andri Steiner  <team@snowflakeops.ch>
+ * @author    Andri Steiner  <team@opsone.ch>
  * @package    TYPO3
  * @subpackage    tx_varnish
  */
