@@ -1,21 +1,8 @@
-
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: Includes.txt
-
 .. _start:
 
 =============================================================
 Varnish
 =============================================================
-
-.. raw:: latex
-
-	\begin{sphinxproperties}
-	\relax
 
 :Classification:
 	varnish
@@ -45,17 +32,9 @@ Varnish
 :Rendered:
 	|today|
 
-.. raw:: latex
-
-	\vfill
-
 The content of this document is related to TYPO3
 
 \- a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_
-
-.. raw:: latex
-
-	\end{sphinxproperties}
 
 Introduction
 -------------------------------------------------------------
@@ -73,7 +52,7 @@ the TYPO3 backend.
 Features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- ready to use configration for Varnish and TYPO3 
+- ready to use configration for Varnish and TYPO3
 - Varnish based caching for all cacheable pages
 - TYPO3 clear cache hook to clear cache for appropriate pages in Varnish too
 
@@ -116,8 +95,7 @@ Requirements
 - you should make yourself familiar with Varnish and how you want to
   implement Varnish in your specific setup. A good starting point is the
   great Varnish book available at https://info.varnish-software.com/the-varnish-book.
-- Varnish has to be up and running. You can find a sample configuration in 
-  the extension's res folder.
+- Varnish has to be up and running. You can find a sample configuration in the extension's res folder
 - requests to all static files should send appropriate expires headers
 
 
@@ -157,7 +135,7 @@ Best Practices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - do not use sessions
-- do not set no_cache=1 
+- do not set no_cache=1
 - do not use _INT objects
 - do not use server-side switches based on clients/browsers properties/settings, e.g. user-agent
   or IP address
