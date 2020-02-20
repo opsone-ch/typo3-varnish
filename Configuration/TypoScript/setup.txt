@@ -1,7 +1,0 @@
-
-# Processed only to Varnish Servers listed in [SYS][reverseProxyIP]
-[request.getNormalizedParams().isBehindReverseProxy()]
-	config.sendCacheHeaders = 1
-	#config.sendCacheHeaders_onlyWhenLoginDeniedInBranch = 1
-[GLOBAL]
-

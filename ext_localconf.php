@@ -27,14 +27,6 @@ if (!defined('TYPO3_MODE')) {
 }
 
 switch (TYPO3_MODE) {
-    case 'FE':
-        // Typoscript
-        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('varnish', 'setup',
-            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
-
-        // Hooks
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Opsone\\Varnish\\Hooks\\Frontend->sendHeader';
-        break;
     case 'BE':
 	// Icon
 	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
