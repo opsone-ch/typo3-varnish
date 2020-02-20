@@ -129,6 +129,7 @@ Compatibility
 - version 1 is compatible with TYPO3 versions 4.5 and 6.2
 - version 2 is compatible with TYPO3 versions 7.6 and 8.7
 - version 3 is compatible with TYPO3 versions 8.7 and 9.5
+- version 4 is compatible with TYPO3 versions 9.5 and 10.4
 
 
 Best Practices
