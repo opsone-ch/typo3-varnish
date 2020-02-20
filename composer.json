@@ -1,5 +1,5 @@
 {
-  "name": "opsone/varnish",
+  "name": "opsone-ch/varnish",
   "type": "typo3-cms-extension",
   "description": "Varnish extension for TYPO3",
   "keywords": [
