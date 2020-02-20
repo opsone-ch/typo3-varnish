@@ -25,7 +25,7 @@ namespace Opsone\Varnish\Controller;
  ***************************************************************/
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Opsone\Varnish\Controller\VarnishController;
 
@@ -59,7 +59,7 @@ class AjaxController
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         $varnishController->clearCache('all');
-        return new JsonResponse();
+        return new HtmlResponse('');
     }
 
 }
