@@ -50,7 +50,7 @@ class FrontendSendHeader implements MiddlewareInterface
       // add the TYPO3-Pid header
       $response = $response->withHeader(
         'TYPO3-Pid',
-        'TODO'
+        (string)$request->getAttribute('routing')['pageId']
       );
 
       // add the TYPO3-Sitename header
