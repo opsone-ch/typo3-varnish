@@ -37,7 +37,7 @@ backend default {
  * Clients in this lists are allowed to issue BAN commands
  */
 
-acl ban {
+acl ban_allow {
 	"127.0.0.1";
 }
 
@@ -48,7 +48,7 @@ acl ban {
 
 sub vcl_recv {
 	# Catch BAN Command
-	if (req.request == "BAN" && client.ip ~ ban) {
+	if (req.request == "BAN" && client.ip ~ ban_allow) {
 
 		if(req.http.Varnish-Ban-All == "1" && req.http.Varnish-Ban-TYPO3-Sitename) {
 			ban("req.url ~ /" + " && obj.http.TYPO3-Sitename == " + req.http.Varnish-Ban-TYPO3-Sitename);

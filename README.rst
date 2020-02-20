@@ -94,8 +94,8 @@ Requirements
 - a test environment might be a good idea!
 - you should make yourself familiar with Varnish and how you want to
   implement Varnish in your specific setup. A good starting point is the
-  great Varnish book available at https://info.varnish-software.com/the-varnish-book.
-- Varnish has to be up and running. You can find a sample configuration in the extension's res folder
+  great Varnish book available at https://info.varnish-software.com/the-varnish-book
+- Varnish has to be up and running. There is a sample configuration in Resources/Private/Example/default.vcl
 - requests to all static files should send appropriate expires headers
 
 
