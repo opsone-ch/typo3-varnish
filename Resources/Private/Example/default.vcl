@@ -1,7 +1,7 @@
 /*
- * snowflake Varnish Configuration for TYPO3
+ * Varnish Configuration for TYPO3
  *
- * (c) 2013 snowflake Ops AG <team@snowflakeops.ch>
+ * (c) 2013 Ops One AG <team@opsone.ch>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is

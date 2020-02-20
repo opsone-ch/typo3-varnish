@@ -1,11 +1,11 @@
 <?php
 
-namespace Snowflake\Varnish\Hooks;
+namespace Opsone\Varnish\Hooks;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2012  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,7 +32,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 /**
  * This class contains required hooks which are called by TYPO3
  *
- * @author    Andri Steiner  <team@snowflakeops.ch>
+ * @author    Andri Steiner  <team@opsone.ch>
  * @package    TYPO3
  * @subpackage    tx_varnish
  */

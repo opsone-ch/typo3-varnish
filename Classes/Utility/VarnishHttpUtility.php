@@ -1,11 +1,11 @@
 <?php
 
-namespace Snowflake\Varnish\Utility;
+namespace Opsone\Varnish\Utility;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2012  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@ namespace Snowflake\Varnish\Utility;
 /**
  * This class communicates with the varnish server
  *
- * @author    Andri Steiner  <team@snowflakeops.ch>
+ * @author    Andri Steiner  <team@opsone.ch>
  * @package    TYPO3
  * @subpackage    tx_varnish
  */

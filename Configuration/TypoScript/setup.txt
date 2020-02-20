@@ -1,7 +1,0 @@
-
-# Processed only to Varnish Servers listed in [SYS][reverseProxyIP]
-[globalString = IENV:TYPO3_REV_PROXY = 1 ]
-	config.sendCacheHeaders = 1
-	#config.sendCacheHeaders_onlyWhenLoginDeniedInBranch = 1
-[global]
-

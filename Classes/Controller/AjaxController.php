@@ -1,11 +1,10 @@
 <?php
-
-namespace Snowflake\Varnish\Controller;
+namespace Opsone\Varnish\Controller;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2012  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,14 +23,17 @@ namespace Snowflake\Varnish\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Snowflake\Varnish\Controller\VarnishController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Opsone\Varnish\Controller\VarnishController;
 
 
 /**
  * This class contains required hooks which are called by TYPO3
  *
- * @author    Andri Steiner  <team@snowflakeops.ch>
+ * @author    Andri Steiner  <team@opsone.ch>
  * @package    TYPO3
  * @subpackage    tx_varnish
  */
@@ -41,11 +43,12 @@ class AjaxController
     /**
      * Ban all pages from varnish cache.
      *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
+     * @param ServerRequestInterface $request the current request
+     * @param ResponseInterface $response the current response
+     * @return ResponseInterface
+     * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
      */
-    public function banAll($request, $response)
+    public function banAll(ServerRequestInterface $request): ResponseInterface
     {
         # log command
         if (is_object($GLOBALS['BE_USER'])) {
@@ -56,7 +59,9 @@ class AjaxController
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         $varnishController->clearCache('all');
-        return($response->withHeader('Content-Type', 'text/html'));
+        return new HtmlResponse('');
     }
 
 }
+
+

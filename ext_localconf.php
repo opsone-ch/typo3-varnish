@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017  Andri Steiner  <team@snowflakeops.ch>
+ *  (c) 2017  Andri Steiner  <team@opsone.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,14 +27,6 @@ if (!defined('TYPO3_MODE')) {
 }
 
 switch (TYPO3_MODE) {
-    case 'FE':
-        // Typoscript
-        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('varnish', 'setup',
-            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:varnish/Configuration/TypoScript/setup.txt">', 43);
-
-        // Hooks
-        $TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['isOutputting'][] = 'Snowflake\\Varnish\\Hooks\\Frontend->sendHeader';
-        break;
     case 'BE':
 	// Icon
 	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
@@ -47,7 +39,7 @@ switch (TYPO3_MODE) {
 	);
 
         // Hooks
-        $TYPO3_CONF_VARS['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Snowflake\Varnish\Hooks\ClearCacheMenu::class;
-        $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Snowflake\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Opsone\Varnish\Hooks\ClearCacheMenu::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
         break;
 }
