@@ -21,6 +21,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
+vcl 4.1;
 
 /*
  * Declare the default Backend Server
@@ -48,22 +49,22 @@ acl ban_allow {
 
 sub vcl_recv {
 	# Catch BAN Command
-	if (req.request == "BAN" && client.ip ~ ban_allow) {
+	if (req.method == "BAN" && client.ip ~ ban_allow) {
 
 		if(req.http.Varnish-Ban-All == "1" && req.http.Varnish-Ban-TYPO3-Sitename) {
 			ban("req.url ~ /" + " && obj.http.TYPO3-Sitename == " + req.http.Varnish-Ban-TYPO3-Sitename);
-			error 200 "Banned all on site " + req.http.Varnish-Ban-TYPO3-Sitename;
+			return(synth(200,"Banned all on site " + req.http.Varnish-Ban-TYPO3-Sitename));
 		} else if(req.http.Varnish-Ban-All == "1") {
 			ban("req.url ~ /");
-			error 200 "Banned all";
+			return(synth(200,"Banned all"));
 		}
 
 		if(req.http.Varnish-Ban-TYPO3-Pid && req.http.Varnish-Ban-TYPO3-Sitename) {
 			ban("obj.http.TYPO3-Pid == " + req.http.Varnish-Ban-TYPO3-Pid + " && obj.http.TYPO3-Sitename == " + req.http.Varnish-Ban-TYPO3-Sitename);
-			error 202 "Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid + " on site " + req.http.Varnish-Ban-TYPO3-Sitename;
+			return (synth(202,"Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid + " on site " + req.http.Varnish-Ban-TYPO3-Sitename));
 		} else if(req.http.Varnish-Ban-TYPO3-Pid) {
 			ban("obj.http.TYPO3-Pid == " + req.http.Varnish-Ban-TYPO3-Pid);
-			error 200 "Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid;
+			return (synth(200,"Banned TYPO3 pid " + req.http.Varnish-Ban-TYPO3-Pid));
 		}
 
 	}
@@ -81,18 +82,18 @@ sub vcl_recv {
 	}
 
 	# Pipe unknown Methods
-	if (req.request != "GET" &&
-		req.request != "HEAD" &&
-		req.request != "PUT" &&
-		req.request != "POST" &&
-		req.request != "TRACE" &&
-		req.request != "OPTIONS" &&
-		req.request != "DELETE") {
+	if (req.method != "GET" &&
+		req.method != "HEAD" &&
+		req.method != "PUT" &&
+		req.method != "POST" &&
+		req.method != "TRACE" &&
+		req.method != "OPTIONS" &&
+		req.method != "DELETE") {
 		return (pipe);
 	}
 
 	# Cache only GET or HEAD Requests
-	if (req.request != "GET" && req.request != "HEAD") {
+	if (req.method != "GET" && req.method != "HEAD") {
 		return (pass);
 	}
 
@@ -112,18 +113,18 @@ sub vcl_recv {
 	}
 
 	# Lookup everything else in the Cache
-	return (lookup);
+	return (hash);
 }
 
 
 /*
- * vcl_fetch
+ * vcl_backend_response
  */
 
-sub vcl_fetch {
+sub vcl_backend_response {
 	# Cache only GET or HEAD Requests
-	if (req.request != "GET" && req.request != "HEAD") {
-		return (hit_for_pass);
+	if (bereq.method != "GET" && bereq.method != "HEAD") {
+		return (pass);
 	}
 
 	# Cache static Pages
@@ -133,7 +134,7 @@ sub vcl_fetch {
 	}
 
 	# do not cache everything else
-	return (hit_for_pass);
+	return (pass);
 }
 
 
@@ -156,4 +157,3 @@ sub vcl_deliver {
 
 	return (deliver);
 }
-
