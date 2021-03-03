@@ -25,5 +25,10 @@
     "psr-4": {
       "Opsone\\Varnish\\": "Classes"
     }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "varnish"
+    }
   }
 }
