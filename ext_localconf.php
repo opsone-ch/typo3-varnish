@@ -27,6 +27,13 @@ if (!defined('TYPO3_MODE')) {
 }
 
 switch (TYPO3_MODE) {
+    case 'FE':
+	// Load TyposSript to enable required FE settings by default
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+		'varnish',
+		'setup',
+		"@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'");
+	break;
     case 'BE':
 	// Icon
 	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
