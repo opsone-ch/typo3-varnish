@@ -41,7 +41,7 @@ class FrontendSendHeader implements MiddlewareInterface
     $response = $handler->handle($request);
     $requestNormalizedParams = $request->getAttribute('normalizedParams');
 
-    // determine wheter we need to add the additional headers
+    // determine whether we need to add the additional headers
     if(
       $requestNormalizedParams->isBehindReverseProxy() === true ||
       (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1

@@ -48,7 +48,7 @@ class VarnishController
 
 
     /**
-     * Load Configuration and assing default values
+     * Load Configuration and assign default values
      *
      * @throws \UnexpectedValueException
      */

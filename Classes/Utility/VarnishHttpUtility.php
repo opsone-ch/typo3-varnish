@@ -89,7 +89,7 @@ class VarnishHttpUtility
             $header = array ($header);
         }
 
-        // create Handle and at it to the Multi-Handle Queue
+        // create Handle and add it to the Multi-Handle Queue
         $curlHandle = curl_init();
         $curlOptions = array (
             CURLOPT_CUSTOMREQUEST => $method,

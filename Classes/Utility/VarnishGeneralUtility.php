@@ -54,8 +54,7 @@ class VarnishGeneralUtility
      */
     public static function devLog($functionName, $additionalData = [])
     {
-        self::loadExtConf();
-        if (self::$extConf['enableDevLog']) {
+        if (self::getProperty('enableDevLog')) {
             $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class)->getLogger(__CLASS__);
             $logger->warning('varnish: '.$functionName, $additionalData);
         }
@@ -71,15 +70,15 @@ class VarnishGeneralUtility
     {
 
         // load Extension Configuration
-        if (version_compare(TYPO3_version, '9', '>=')) {
-            if (empty(self::$extConf)) {
+        if (empty(self::$extConf)) {
+            if (version_compare(TYPO3_version, '9', '>=')) {
                 self::$extConf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('varnish');
-            }
-        } else if (version_compare(TYPO3_version, '8', '>=')) {
-            self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
+            } else if (version_compare(TYPO3_version, '8', '>=')) {
+                self::$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['varnish']);
 
-            if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish'])) {
-                self::$extConf = array_merge(self::$extConf, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish']);
+                if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish'])) {
+                    self::$extConf = array_merge(self::$extConf, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['varnish']);
+                }
             }
         }
 
