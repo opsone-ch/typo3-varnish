@@ -17,7 +17,7 @@ Varnish
 	Varnish is the fastest, most flexible and cost efficient web accelerator available for your online business. It speeds up your website and boosts user loyalty and customer conversion rate and helps to save hosting costs.
 
 :Copyright:
-	Ops One AG, 2013 - 2020
+	Ops One AG, 2013 - 2021
 
 :Author:
 	Andri Steiner, Ops One AG
@@ -32,9 +32,8 @@ Varnish
 :Rendered:
 	|today|
 
-The content of this document is related to TYPO3
-
-\- a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_
+The content of this document is related to TYPO3,
+a GNU/GPL CMS/Framework available from `typo3.org <http://www.typo3.org/>`_.
 
 Introduction
 -------------------------------------------------------------
@@ -63,7 +62,6 @@ Why another Varnish Extension?
 While there are already a few extensions for Varnish and TYPO3 available, we
 decided to build our own for the following reasons:
 
-
 - use the full power of current Varnish version (especially smart BAN)
 - use TYPO3 core functions and configuration directives whenever possible
 - do not collect all feasible URLs for a given TYPO3 page to send appropriate
@@ -71,6 +69,9 @@ decided to build our own for the following reasons:
 - do not use Varnish Edge Side Includes (ESI) in combination with some "magic"
   TYPO3 FE processing
 - in short: This powerful extension follows the KISS principle
+
+This took place back in 2013. Meanwhile, this extension evolved to the defacto standard for using
+Varnish with TYPO3.
 
 
 Technical Background
@@ -130,6 +131,7 @@ Compatibility
 - version 2 is compatible with TYPO3 versions 7.6 and 8.7
 - version 3 is compatible with TYPO3 versions 8.7 and 9.5
 - version 4 is compatible with TYPO3 versions 9.5 and 10.4
+- version 5 is compatible with TYPO3 versions 10.4 and 11.4
 
 
 Best Practices
