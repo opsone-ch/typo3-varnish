@@ -4,7 +4,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
-    'title' => 'Varnish Connector',
+    'title' => 'Varnish for TYPO3',
     'description' => 'Make your TYPO3 website blazing fast and stable for loads of simultaneous visitors. Seamless integration of TYPO3 cached pages into Varnish.',
     'category' => 'misc',
     'shy' => 0,
