@@ -4,7 +4,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
-    'title' => 'Varnish Connector',
+    'title' => 'Varnish for TYPO3',
     'description' => 'Make your TYPO3 website blazing fast and stable for loads of simultaneous visitors. Seamless integration of TYPO3 cached pages into Varnish.',
     'category' => 'misc',
     'shy' => 0,
@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = array (
     'constraints' => array (
         'depends' => array (
             'php' => '7.4.0-8.0.99',
-            'typo3' => '10.4.0-11.3.99',
+            'typo3' => '10.4.11-11.4.99',
         ),
         'conflicts' => array (),
         'suggests' => array (),
