@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file t3:id="1631185288" source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-09-09T11:01:28Z" product-name="varnish">
+		<header/>
+		<body>
+			<trans-unit id="be_clear_cache_title" resname="be_clear_cache_title"  approved="yes">
+				<source>Clear Varnish Cache</source>
+				<target>Varnish Cache leeren</target>
+			</trans-unit>
+			<trans-unit id="be_clear_cache_description" resname="be_clear_cache_description"  approved="yes">
+				<source>Send BAN command for all objects belonging to this installation.</source>
+				<target>BAN Kommando für alle Objekte dieser Installation senden.</target>
+			</trans-unit>
+			<trans-unit id="extconf_instancehostnames" resname="extconf_instancehostnames"  approved="yes">
+				<source>Varnish Servers:By default, the Hostname of your Backend Connection is used to connect to Varnish which is usually fine. If your Varnish Server Hostname is different from your Backend Hostname or you run multiple Varnish Instances add those Hostnames here as a Comma separated List.</source>
+				<target>Varnish Server:Standardmässig wird der Hostname des Backends als Varnish-Server benutzt. Wenn Ihr Varnish-Server Hostname nicht Ihr TYPO3 Backend Hostname ist, oder Sie mehrere Varnish Instanzen benutzen, tragen Sie diese hier bitte mit Komma getrennt ein.</target>
+			</trans-unit>
+			<trans-unit id="extconf_enabledevlog" resname="extconf_enabledevlog"  approved="yes">
+				<source>Debug:Write Debug Messages about Varnish Actions to devLog.</source>
+				<target>Debug:Trage Varnish-Actions in das DevLog ein.</target>
+			</trans-unit>
+			<trans-unit id="extconf_alwayssendtypo3headers" resname="extconf_alwayssendtypo3headers"  approved="yes">
+				<source>Always send TYPO3 Headers:Forces TYPO3 to always send TYPO3 cache specific headers. Is also set on the fly according [SYS][reverseProxyIP] and therefore usually not required.</source>
+				<target>Header immer senden:Erzwingt das Senden der TYPO3 cache spezifischen Header. Wird auch anhand [SYS][reverseProxyIP] gesetzt und ist deshalb normalerweise nicht nötig.</target>
+			</trans-unit>
+			<trans-unit id="extconf_banRequestMethod" resname="extconf_banRequestMethod"  approved="yes">
+				<source>HTTP request method for banning:By default the BAN request is sent to varnish to clear the cache. This is a nonstandard method and may be blocked by your network. In that case, choose another one (PURGE is standardised).</source>
+				<target/>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

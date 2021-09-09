@@ -59,8 +59,8 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
         $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
         $cacheActions[] = array (
             'id' => 'varnish',
-            'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_title',
-            'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xml:be_clear_cache_description',
+            'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_title',
+            'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_description',
             'href' => $uriBuilder->buildUriFromRoute('ajax_varnish_banall'),
             'iconIdentifier' => 'tx-varnish-logo',
         );
