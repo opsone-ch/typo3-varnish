@@ -22,31 +22,25 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
-}
+defined('TYPO3') or die();
 
-switch (TYPO3_MODE) {
-    case 'FE':
-	// Load TyposSript to enable required FE settings by default
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-		'varnish',
-		'setup',
-		"@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'");
-	break;
-    case 'BE':
-	// Icon
-	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-		\TYPO3\CMS\Core\Imaging\IconRegistry::class
-	);
-	$iconRegistry->registerIcon(
-		'tx-varnish-logo',
-		\TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-		['source' => 'EXT:varnish/ext_icon.gif']
-	);
+// Frontend: Load TyposSript to enable required FE settings by default
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+	'varnish',
+	'setup',
+	"@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'");
 
-        // Hooks
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Opsone\Varnish\Hooks\ClearCacheMenu::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
-        break;
-}
+// Icon Registry
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+	\TYPO3\CMS\Core\Imaging\IconRegistry::class
+);
+$iconRegistry->registerIcon(
+	'tx-varnish-logo',
+	\TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+	['source' => 'EXT:varnish/ext_icon.gif']
+);
+
+// Backend Hooks
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Opsone\Varnish\Hooks\ClearCacheMenu::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
+
