@@ -158,6 +158,6 @@ Feel free to contact us at team@opsone.ch if you need commercial support.
 Development
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This extension is managed on GitHub. Feel free to get in touch at
+This extension is managed on Gitlab. Feel free to get in touch at
 https://gitlab.com/opsone_ch/typo3/varnish/.
 
