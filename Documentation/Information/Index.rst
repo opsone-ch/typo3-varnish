@@ -13,7 +13,7 @@ Compatibility
 - version 2 is compatible with TYPO3 versions 7.6 and 8.7
 - version 3 is compatible with TYPO3 versions 8.7 and 9.5
 - version 4 is compatible with TYPO3 versions 9.5 and 10.4
-- version 5 is compatible with TYPO3 versions 10.4 and 11.4
+- version 5 is compatible with TYPO3 versions 10.4 and 11.5
 
 Best Practices
 ==============
