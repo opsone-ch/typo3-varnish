@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file t3:id="1631185288" source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-09-09T11:01:28Z" product-name="varnish">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-09-09T11:01:28Z" product-name="varnish">
 		<header/>
 		<body>
 			<trans-unit id="be_clear_cache_title" resname="be_clear_cache_title"  approved="yes">
