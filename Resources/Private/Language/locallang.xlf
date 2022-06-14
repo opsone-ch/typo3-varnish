@@ -24,6 +24,9 @@
 			<trans-unit id="extconf_alwayssendtypo3headers" resname="extconf_alwayssendtypo3headers" >
 				<source>Always send TYPO3 Headers:Forces TYPO3 to always send TYPO3 cache specific headers. Is also set on the fly according [SYS][reverseProxyIP] and therefore usually not required.</source>
 			</trans-unit>
+			<trans-unit id="extconf_sendxkeytags" resname="extconf_sendxkeytags" >
+				<source>Send Xkey tag: sends all of the pages tags in xkey: ... headers, requires the xkey vmod</source>
+			</trans-unit>
 			<trans-unit id="extconf_banRequestMethod" resname="extconf_banRequestMethod" >
 				<source>HTTP request method for banning:By default the BAN request is sent to varnish to clear the cache. This is a nonstandard method and may be blocked by your network. In that case, choose another one (PURGE is standardised).</source>
 			</trans-unit>

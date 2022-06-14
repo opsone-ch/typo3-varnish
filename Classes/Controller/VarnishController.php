@@ -27,6 +27,7 @@ namespace Opsone\Varnish\Controller;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
 use Opsone\Varnish\Utility\VarnishHttpUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * This class contains controls communication between TYPO3 and Varnish
@@ -104,17 +105,24 @@ class VarnishController
         // Log debug infos
         VarnishGeneralUtility::devLog('clearCache', array ('cacheCmd' => $cacheCmd));
 
-        // if cacheCmd is a single Page, issue BAN Command on this pid
-        // all other Commands ("page", "all") led to a BAN of the whole Cache
-        $cacheCmd = (int)$cacheCmd;
-        $command = array (
-            $cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
-            'Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()
-        );
+        $headers=['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
+
+        switch ( $cacheCmd ){
+            case 'all':
+            case 'pages':
+                $headers[]='Varnish-Ban-All: 1';
+                break;
+            default:
+                if (MathUtility::canBeInterpretedAsInteger($cacheCmd)){                    
+                    $headers[]='Varnish-Ban-TYPO3-Pid: ' . $cacheCmd;
+                }else{
+                    $headers[]='Varnish-Ban-TYPO3-Tag: ' . $cacheCmd;
+                }
+        }
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
 
         if ( !empty($this->extraHeaders) ){
-            $command = array_merge($command,$this->extraHeaders);
+            $headers = array_merge($headers,$this->extraHeaders);
         }
 
         // issue command on every Varnish Server
@@ -122,9 +130,9 @@ class VarnishController
         $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
         foreach ($this->instanceHostnames as $currentHost) {
             if ( !empty($this->internalServer) ){                
-                $varnishHttp::addCommand($method, $this->internalServer, array_merge($command,["Host: ".$currentHost]));
+                $varnishHttp::addCommand($method, $this->internalServer, array_merge($headers,["Host: ".$currentHost]));
             }else{
-                $varnishHttp::addCommand($method, $currentHost, $command);
+                $varnishHttp::addCommand($method, $currentHost, $headers);
             }
         }
     }

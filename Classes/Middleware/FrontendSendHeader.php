@@ -46,7 +46,7 @@ class FrontendSendHeader implements MiddlewareInterface
       $requestNormalizedParams->isBehindReverseProxy() === true ||
       (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1
     ) {
-
+      /** @var \GuzzleHttp\Psr7\ServerRequest $response */
       // add the TYPO3-Pid header
       $response = $response->withHeader(
         'TYPO3-Pid',
@@ -59,6 +59,24 @@ class FrontendSendHeader implements MiddlewareInterface
          VarnishGeneralUtility::getSitename()
       );
 
+      if ( (int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1 ){
+        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $tsfe */
+        $tsfe=$GLOBALS['TSFE'];
+        $tags=array_unique($tsfe->getPageCacheTags());
+        
+        if ( empty($tags) ){
+          //This can happen if the first page request to a page that isn't cached by typo3 happened by a user with cookies ( fe_users, etc ) set
+          //$tsfe->pageArguments->getArguments()['cHash']
+        }
+        if ( !empty($tags) ){
+          $tags[]='siteID_'.VarnishGeneralUtility::getSitename();
+          // add the xkey header
+          $response = $response->withHeader(
+            'xkey',
+            $tags
+          );
+        }
+      }      
     }
 
     return $response;
