@@ -46,6 +46,20 @@ class VarnishController
      */
     protected $instanceHostnames = array ();
 
+    /**
+     * List of extra headers to send to the Varnish host
+     *
+     * @var array
+     */
+    protected $extraHeaders = array ();
+
+    /**
+     * Internal backend Instance
+     *
+     * @var string
+     */
+    protected $internalServer = '';
+
 
     /**
      * Load Configuration and assign default values
@@ -59,9 +73,14 @@ class VarnishController
         if (empty($this->instanceHostnames)) {
             $this->instanceHostnames = GeneralUtility::getIndpEnv('HTTP_HOST');
         }
-
         // convert Comma separated List into a Array
         $this->instanceHostnames = GeneralUtility::trimExplode(',', $this->instanceHostnames, true);
+
+        $this->internalServer = VarnishGeneralUtility::getProperty('administrativeHost');
+        $this->extraHeaders = VarnishGeneralUtility::getProperty('extraAdministrativeHeaders');
+        if ( !empty($this->extraHeaders) ){
+            $this->extraHeaders = GeneralUtility::trimExplode('|', $this->extraHeaders, true);
+        }
     }
 
 
@@ -94,11 +113,19 @@ class VarnishController
         );
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
 
+        if ( !empty($this->extraHeaders) ){
+            $command = array_merge($command,$this->extraHeaders);
+        }
+
         // issue command on every Varnish Server
         /** @var $varnishHttp VarnishHttpUtility */
         $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
         foreach ($this->instanceHostnames as $currentHost) {
-            $varnishHttp::addCommand($method, $currentHost, $command);
+            if ( !empty($this->internalServer) ){                
+                $varnishHttp::addCommand($method, $this->internalServer, array_merge($command,["Host: ".$currentHost]));
+            }else{
+                $varnishHttp::addCommand($method, $currentHost, $command);
+            }
         }
     }
 }
