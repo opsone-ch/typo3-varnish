@@ -25,6 +25,8 @@ namespace Opsone\Varnish\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use Opsone\Varnish\Controller\VarnishController;
+use Opsone\Varnish\Utility\VarnishGeneralUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -42,7 +44,7 @@ class DataHandler
      * Clear cache hook
      *
      * @param array $params Parameter
-     * @param DataHandler $parent
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $parent
      *
      * @return void
      *
@@ -56,7 +58,51 @@ class DataHandler
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         // use either cacheCmd or uid_page
-        $cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
+        //$cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
+        if( isset($params['cacheCmd']) ){
+            $cacheCmd = $params['cacheCmd'];
+        }else{
+            if ( VarnishGeneralUtility::getProperty('sendXkeyTags') ){
+                $cacheCmd=[];
+                //Tags that goes too far, eg "tt_content" is sendt every time you update ANY content element!
+                $badTags=['tt_content','sys_template']; //TODO: might be better remove any that also has a xx_### ?
+                foreach($params['tags'] as $key=>$val){
+                    if ( $val!==true || in_array($key,$badTags) ){ continue; }
+                    $cacheCmd[]=$key;
+                    
+                    //Handles clearing pages where content is linked
+                    if ( strpos($key,'tt_content_')===0 ){
+                        
+                        /**
+                         * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
+                         */
+                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');        
+                        $linkingPids=$queryBuilder
+                            #->select('records')
+                            ->selectLiteral('DISTINCT pid')
+                            #->distinct()
+                            ->from('tt_content')
+                            ->where(
+                                $queryBuilder->expr()
+                                    ->like(
+                                        'records',
+                                        $queryBuilder->createNamedParameter('%'.$queryBuilder->escapeLikeWildcards($key).'%',\TYPO3\CMS\Core\Database\Connection::PARAM_STR)
+                                    )
+                            )
+                            ->execute()
+                            ->fetchAll();
+                        foreach($linkingPids as $row){
+                            $parent->clear_cacheCmd($row['pid']);                            
+                        }
+                    }
+
+                }
+                $cacheCmd=implode(' ',$cacheCmd);
+            }else{
+                $cacheCmd=$params['uid_page'];
+            }
+            VarnishGeneralUtility::devLog('clearCachePostProc',$params);
+        }
         $varnishController->clearCache($cacheCmd);
     }
 }
