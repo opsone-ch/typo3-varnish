@@ -30,6 +30,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FrontendSendHeader implements MiddlewareInterface
 {
@@ -65,15 +67,17 @@ class FrontendSendHeader implements MiddlewareInterface
         $tags=array_unique($tsfe->getPageCacheTags());
         
         if ( empty($tags) ){
-          //This can happen if the first page request to a page that isn't cached by typo3 happened by a user with cookies ( fe_users, etc ) set
-          //$tsfe->pageArguments->getArguments()['cHash']
+          //TODO: This can (aparently) happen if the first page request to a page that isn't cached by typo3 happened by a user with cookies ( fe_users, etc ) set
+          //TODO: $tsfe->pageArguments->getArguments()['cHash']
+          //TODO: store the tags by chash and fetch them later
+          //TODO: it doesn't happen for us because varnish kills cookies for every page we want cached
         }
         if ( !empty($tags) ){
-          $tags[]='siteID_'.VarnishGeneralUtility::getSitename();
+          $tags[]='siteId_'.VarnishGeneralUtility::getSitename();
           // add the xkey header
           $response = $response->withHeader(
             'xkey',
-            $tags
+            implode(' ',$tags) //Not all xkey versions/implementations understand multiheader collapse - but they should all support single header collapsed with space
           );
         }
       }      

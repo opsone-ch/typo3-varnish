@@ -116,7 +116,7 @@ class VarnishController
                 if (MathUtility::canBeInterpretedAsInteger($cacheCmd)){                    
                     $headers[]='Varnish-Ban-TYPO3-Pid: ' . $cacheCmd;
                 }else{
-                    $headers[]='Varnish-Ban-TYPO3-Tag: ' . $cacheCmd;
+                    $headers[]='xkey-purge: ' . $cacheCmd;
                 }
         }
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
@@ -130,8 +130,10 @@ class VarnishController
         $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
         foreach ($this->instanceHostnames as $currentHost) {
             if ( !empty($this->internalServer) ){                
+                VarnishGeneralUtility::devLog('clearCache', array_merge($headers,["Host: ".$currentHost]));
                 $varnishHttp::addCommand($method, $this->internalServer, array_merge($headers,["Host: ".$currentHost]));
             }else{
+                VarnishGeneralUtility::devLog('clearCache', array ('headers' => $headers));
                 $varnishHttp::addCommand($method, $currentHost, $headers);
             }
         }
