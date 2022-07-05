@@ -38,8 +38,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandler
 {
-
-
+ 
     /**
      * Clear cache hook
      *
@@ -54,7 +53,6 @@ class DataHandler
      */
     public function clearCachePostProc(array $params, \TYPO3\CMS\Core\DataHandling\DataHandler $parent)
     {
-
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         // use either cacheCmd or uid_page
@@ -65,7 +63,7 @@ class DataHandler
             if ( VarnishGeneralUtility::getProperty('sendXkeyTags') ){
                 $cacheCmd=[];
                 //Tags that goes too far, eg "tt_content" is sendt every time you update ANY content element!
-                $badTags=['tt_content','sys_template']; //TODO: might be better remove any that also has a xx_### ?
+                $badTags=['tt_content','sys_template','sys_file_reference']; //TODO: might be better remove any that also has a xx_### ? do we ever tag with them?
                 foreach($params['tags'] as $key=>$val){
                     if ( $val!==true || in_array($key,$badTags) ){ continue; }
                     $cacheCmd[]=$key;
@@ -97,7 +95,7 @@ class DataHandler
                     }
 
                 }
-                $cacheCmd=implode(' ',$cacheCmd);
+                $cacheCmd=implode(' ',$cacheCmd);                
             }else{
                 $cacheCmd=$params['uid_page'];
             }
