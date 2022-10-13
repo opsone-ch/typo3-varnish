@@ -37,7 +37,7 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 $iconRegistry->registerIcon(
 	'tx-varnish-logo',
 	\TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-	['source' => 'EXT:varnish/ext_icon.gif']
+	['source' => 'EXT:varnish/Resources/Public/Icons/Extension.gif']
 );
 
 // Backend Hooks
