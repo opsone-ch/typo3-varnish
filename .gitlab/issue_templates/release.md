@@ -8,9 +8,10 @@ git push origin x.y.z
 ```
 * [ ] create zip archive and upload to TYPO3 extension repository
 ```
-zip -r ../my_extension_key_x.y.z.zip *
+zip -r ../varnish_x.y.z.zip *
 ```
-* [ ] check https://extensions.typo3.org/extension/varnish
+* [ ] check new release in [TER](https://extensions.typo3.org/extension/varnish)
+* [ ] check new release on [Packagist](https://packagist.org/packages/opsone-ch/varnish)
 * [ ] when required, adapt release template
 * [ ] close [milestone](https://gitlab.com/opsone_ch/typo3/varnish/-/milestones)
 * [ ] Tweet
