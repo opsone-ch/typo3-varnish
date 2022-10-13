@@ -15,5 +15,4 @@ test_sonarqube:
   script:
     - sonar-scanner -Dsonar.qualitygate.wait=true
   only:
-    - main
-
+    - branches@opsone_ch/typo3/varnish
