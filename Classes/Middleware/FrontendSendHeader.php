@@ -25,6 +25,8 @@ namespace Opsone\Varnish\Middleware;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Opsone\Varnish\Events\ProcessXtagsEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -35,6 +37,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FrontendSendHeader implements MiddlewareInterface
 {
+
+  private ?EventDispatcherInterface $eventDispatcher=null;
+  public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void{ $this->eventDispatcher = $eventDispatcher; }
 
   public function process(
     ServerRequestInterface $request,
@@ -54,25 +59,7 @@ class FrontendSendHeader implements MiddlewareInterface
       $response = $response->withHeader(
         'TYPO3-Pid',
         (string)$request->getAttribute('routing')['pageId']
-      );
-      if ( false && $request->getMethod() == 'GET' ){
-        /* TODO: Store 
-         * $request->getAttribute('site')->getIdentifier()
-         * $request->getAttribute('routing')['pageId']
-         * language
-         * $requestNormalizedParams->getHttpHost()? (protocol also? https is terminated before the varnish call )
-         * $requestNormalizedParams->getRequestUri()
-         * time()+$tsfe->get_cache_timeout() 
-         * 
-         * so the can be marked as invalid later 
-         */
-        
-        //TODO:This way we can automatically crawl all URIs uris that have expired
-        //TODO: but how to deal with pages that stop existing ? (renamed, deleted, etc)
-        //TODO: we never reach here if we trigger a 404, so maybe the crawler should delete pages that dont response 200 OK ? (see other,not found, internal server error)
-        //TODO: how do we crawl new pages ?
-      }
-      
+      );    
       
       // add the TYPO3-Sitename header
       $response = $response->withHeader(
@@ -84,7 +71,11 @@ class FrontendSendHeader implements MiddlewareInterface
         /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $tsfe */
         $tsfe=$GLOBALS['TSFE'];
         $tags=array_unique($tsfe->getPageCacheTags());
-        //TODO add site config identifier  $request->getAttribute('site')->getIdentifier()        
+        //PSR-14 signal to process $tags before we send them
+        /** @var ProcessXtagsEvent */
+        $event = $this->eventDispatcher->dispatch( new ProcessXtagsEvent($tags) );
+        $tags=$event->getXtags();
+
         if ( empty($tags) ){
           //TODO: This can (aparently) happen if the first page request to a page that isn't cached by typo3 happened by a user with cookies ( fe_users, etc ) set
           //TODO: $tsfe->pageArguments->getArguments()['cHash']
