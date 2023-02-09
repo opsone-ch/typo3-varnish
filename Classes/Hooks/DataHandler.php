@@ -56,29 +56,26 @@ class DataHandler
         /** @var VarnishController $varnishController */
         $varnishController = GeneralUtility::makeInstance(VarnishController::class);
         // use either cacheCmd or uid_page
-        //$cacheCmd = isset($params['cacheCmd']) ? $params['cacheCmd'] : $params['uid_page'];
         if( isset($params['cacheCmd']) ){
             $cacheCmd = $params['cacheCmd'];
         }else{
             if ( VarnishGeneralUtility::getProperty('sendXkeyTags') ){
                 $cacheCmd=[];
                 //Tags that goes too far, eg "tt_content" is sendt every time you update ANY content element!
-                $badTags=['tt_content','sys_template','sys_file_reference']; //TODO: might be better remove any that also has a xx_### ? do we ever tag with them?
+                $badTags=['tt_content','sys_template','sys_file_reference'];
                 foreach($params['tags'] as $key=>$val){
                     if ( $val!==true || in_array($key,$badTags) ){ continue; }
+                    //Use valid tags for xkey banning
                     $cacheCmd[]=$key;
                     
                     //Handles clearing pages where content is linked
-                    if ( strpos($key,'tt_content_')===0 ){
-                        
+                    if ( strpos($key,'tt_content_')===0 ){                        
                         /**
                          * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
                          */
                         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');        
                         $linkingPids=$queryBuilder
-                            #->select('records')
                             ->selectLiteral('DISTINCT pid')
-                            #->distinct()
                             ->from('tt_content')
                             ->where(
                                 $queryBuilder->expr()
@@ -93,7 +90,6 @@ class DataHandler
                             $parent->clear_cacheCmd($row['pid']);                            
                         }
                     }
-
                 }
                 $cacheCmd=implode(' ',$cacheCmd);                
             }else{
