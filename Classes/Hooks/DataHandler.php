@@ -74,7 +74,7 @@ class DataHandler
                          * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
                          */
                         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');        
-                        $linkingPids=$queryBuilder
+                        $query=$queryBuilder
                             ->selectLiteral('DISTINCT pid')
                             ->from('tt_content')
                             ->where(
@@ -83,9 +83,18 @@ class DataHandler
                                         'records',
                                         $queryBuilder->createNamedParameter('%'.$queryBuilder->escapeLikeWildcards($key).'%',\TYPO3\CMS\Core\Database\Connection::PARAM_STR)
                                     )
-                            )
-                            ->execute()
-                            ->fetchAll();
+                            );
+                        if ( method_exists($query,'executeQuery') ){
+                            //t3 v10
+                            $linkingPids=$query
+                                ->execute()
+                                ->fetchAll();
+                        }else{
+                            //t3 v11+
+                            $linkingPids=$query
+                                ->executeQuery()
+                                ->fetchAllAssociative();
+                        }
                         foreach($linkingPids as $row){
                             $parent->clear_cacheCmd($row['pid']);                            
                         }
