@@ -14,6 +14,7 @@ Compatibility
 - version 3 is compatible with TYPO3 versions 8.7 and 9.5
 - version 4 is compatible with TYPO3 versions 9.5 and 10.4
 - version 5 is compatible with TYPO3 versions 10.4 and 11.5
+- version 6 is compatible with TYPO3 versions 11.5 and 12.4
 
 Best Practices
 ==============
