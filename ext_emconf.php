@@ -8,11 +8,11 @@ $EM_CONF[$_EXTKEY] = array (
     'description' => 'Make your TYPO3 website blazing fast and stable for loads of simultaneous visitors. Seamless integration of TYPO3 cached pages into Varnish.',
     'category' => 'misc',
     'shy' => 0,
-    'version' => '5.0.2',
+    'version' => '6.0.0',
     'constraints' => array (
         'depends' => array (
             'php' => '7.4.0-8.1.99',
-            'typo3' => '10.4.11-11.5.99',
+            'typo3' => '11.5.0-12.5.99',
         ),
         'conflicts' => array (),
         'suggests' => array (),
