@@ -27,6 +27,7 @@ namespace Opsone\Varnish\Controller;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
 use Opsone\Varnish\Utility\VarnishHttpUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * This class contains controls communication between TYPO3 and Varnish
@@ -46,6 +47,20 @@ class VarnishController
      */
     protected $instanceHostnames = array ();
 
+    /**
+     * List of extra headers to send to the Varnish host
+     *
+     * @var array
+     */
+    protected $extraHeaders = array ();
+
+    /**
+     * Internal backend Instance
+     *
+     * @var string
+     */
+    protected $internalServer = '';
+
 
     /**
      * Load Configuration and assign default values
@@ -59,9 +74,14 @@ class VarnishController
         if (empty($this->instanceHostnames)) {
             $this->instanceHostnames = GeneralUtility::getIndpEnv('HTTP_HOST');
         }
-
         // convert Comma separated List into a Array
         $this->instanceHostnames = GeneralUtility::trimExplode(',', $this->instanceHostnames, true);
+
+        $this->internalServer = VarnishGeneralUtility::getProperty('administrativeHost');
+        $this->extraHeaders = VarnishGeneralUtility::getProperty('extraAdministrativeHeaders');
+        if ( !empty($this->extraHeaders) ){
+            $this->extraHeaders = GeneralUtility::trimExplode('|', $this->extraHeaders, true);
+        }
     }
 
 
@@ -85,20 +105,37 @@ class VarnishController
         // Log debug infos
         VarnishGeneralUtility::devLog('clearCache', array ('cacheCmd' => $cacheCmd));
 
-        // if cacheCmd is a single Page, issue BAN Command on this pid
-        // all other Commands ("page", "all") led to a BAN of the whole Cache
-        $cacheCmd = (int)$cacheCmd;
-        $command = array (
-            $cacheCmd > 0 ? 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd : 'Varnish-Ban-All: 1',
-            'Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()
-        );
+        $headers=['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
+
+        switch ( $cacheCmd ){
+            case 'all':
+            case 'pages':
+                $headers[]='Varnish-Ban-All: 1';
+                break;
+            default:
+                if (MathUtility::canBeInterpretedAsInteger($cacheCmd)){                    
+                    $headers[]='Varnish-Ban-TYPO3-Pid: ' . $cacheCmd;
+                }else{
+                    $headers[]='xkey-purge: ' . $cacheCmd;
+                }
+        }
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
+
+        if ( !empty($this->extraHeaders) ){
+            $headers = array_merge($headers,$this->extraHeaders);
+        }
 
         // issue command on every Varnish Server
         /** @var $varnishHttp VarnishHttpUtility */
         $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
         foreach ($this->instanceHostnames as $currentHost) {
-            $varnishHttp::addCommand($method, $currentHost, $command);
+            if ( !empty($this->internalServer) ){                
+                VarnishGeneralUtility::devLog('clearCache', array_merge($headers,["Host: ".$currentHost]));
+                $varnishHttp::addCommand($method, $this->internalServer, array_merge($headers,["Host: ".$currentHost]));
+            }else{
+                VarnishGeneralUtility::devLog('clearCache', array ('headers' => $headers));
+                $varnishHttp::addCommand($method, $currentHost, $headers);
+            }
         }
     }
 }

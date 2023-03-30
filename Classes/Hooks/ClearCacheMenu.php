@@ -64,7 +64,7 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
             'href' => $uriBuilder->buildUriFromRoute('ajax_varnish_banall'),
             'iconIdentifier' => 'tx-varnish-logo',
         );
-
+        //TODO: can we make a clear SITE menu? - the current solution is clear T3INSTALL 🤔
     }
 
 }

@@ -12,11 +12,20 @@
 			<trans-unit id="extconf_instancehostnames" resname="extconf_instancehostnames" >
 				<source>Varnish Servers:By default, the Hostname of your Backend Connection is used to connect to Varnish which is usually fine. If your Varnish Server Hostname is different from your Backend Hostname or you run multiple Varnish Instances add those Hostnames here as a Comma separated List.</source>
 			</trans-unit>
+			<trans-unit id="extconf_administrativehost" resname="extconf_administrativehost" >
+				<source>Administrative host:Fill this in to issue cache commands to the varnish server via a host that doesn't match the dns record ( eg. internal IP )</source>
+			</trans-unit>
+			<trans-unit id="extconf_extraadministrativeheaders" resname="extconf_extraadministrativeheaders" >
+				<source>Extra Administrative Headers:Any extra headers to send to the Varnish Backend when issuing commands ( seperate by | )</source>
+			</trans-unit>
 			<trans-unit id="extconf_enabledevlog" resname="extconf_enabledevlog" >
 				<source>Debug:Write Debug Messages about Varnish Actions to devLog.</source>
 			</trans-unit>
 			<trans-unit id="extconf_alwayssendtypo3headers" resname="extconf_alwayssendtypo3headers" >
 				<source>Always send TYPO3 Headers:Forces TYPO3 to always send TYPO3 cache specific headers. Is also set on the fly according [SYS][reverseProxyIP] and therefore usually not required.</source>
+			</trans-unit>
+			<trans-unit id="extconf_sendxkeytags" resname="extconf_sendxkeytags" >
+				<source>Send Xkey tag: sends all of the pages tags in xkey: ... headers, requires the xkey vmod</source>
 			</trans-unit>
 			<trans-unit id="extconf_banRequestMethod" resname="extconf_banRequestMethod" >
 				<source>HTTP request method for banning:By default the BAN request is sent to varnish to clear the cache. This is a nonstandard method and may be blocked by your network. In that case, choose another one (PURGE is standardised).</source>

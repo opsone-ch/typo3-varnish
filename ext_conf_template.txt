@@ -1,8 +1,14 @@
 # cat=basic/; type=string; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_instancehostnames
 instanceHostnames =
+# cat=basic/; type=string; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_administrativehost
+administrativeHost =
+# cat=basic/; type=string; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_extraadministrativeheaders
+extraAdministrativeHeaders =
 # cat=basic/; type=boolean; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_enabledevlog
 enableDevLog = 0
 # cat=basic/; type=boolean; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_alwayssendtypo3headers
 alwaysSendTypo3Headers = 0
+# cat=basic/; type=boolean; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_sendxkeytags
+sendXkeyTags = 0
 # cat=basic/; type=string; label=LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:extconf_banRequestMethod
 banRequestMethod = BAN

@@ -43,4 +43,3 @@ $iconRegistry->registerIcon(
 // Backend Hooks
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Opsone\Varnish\Hooks\ClearCacheMenu::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
-
