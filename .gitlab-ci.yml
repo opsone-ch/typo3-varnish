@@ -1,18 +1,35 @@
 
-# define stages
+# configuration
 stages:
 - test
+variables:
+  GIT_DEPTH: 0
 
 # SonarQube
 # see https://sonarcloud.io/dashboard?id=typo3-varnish
-test_sonarqube:
+test-sonarqube:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
-    GIT_DEPTH: 0
   script:
     - sonar-scanner -Dsonar.qualitygate.wait=true
   only:
     - branches@opsone_ch/typo3/varnish
+
+# PHP_CodeSniffer
+test-syntax:
+  stage: test
+  image: php:8.2
+  script:
+    - curl --silent --output /tmp/phpcs.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+    - php /tmp/phpcs.phar --report=junit --report-file=report.xml .
+  only:
+    - branches@opsone_ch/typo3/varnish
+  # artifact configuration (reporting)
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+
