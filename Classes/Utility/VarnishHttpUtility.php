@@ -1,7 +1,5 @@
 <?php
 
-namespace Opsone\Varnish\Utility;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace Opsone\Varnish\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace Opsone\Varnish\Utility;
+
 /**
  * This class communicates with the varnish server
  *
@@ -34,8 +34,6 @@ namespace Opsone\Varnish\Utility;
  */
 class VarnishHttpUtility
 {
-
-
     /**
      * cURL Multi-Handle Queue
      *

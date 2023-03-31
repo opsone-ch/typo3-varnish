@@ -1,5 +1,4 @@
 <?php
-use TYPO3\CMS\Backend\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -23,6 +22,8 @@ use TYPO3\CMS\Backend\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Backend\Controller;
 
 return [
     'varnish_banall' => [

@@ -4,6 +4,12 @@
 
 Please head over to https://extensions.typo3.org/extension/varnish.
 
+## Development
+
+* we do welcome merge requests for bugfixes, see our [GitLab project](https://gitlab.com/opsone_ch/typo3/varnish/-/merge_requests) for details
+* we're happy to merge new features, but we like to keep the codebase small and tidy
+* please adhere to to [PSR12 specification](https://www.php-fig.org/psr/psr-12/)
+
 ## Code Quality & Security
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=typo3-varnish&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=typo3-varnish)

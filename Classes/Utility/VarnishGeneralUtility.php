@@ -1,5 +1,4 @@
 <?php
-namespace Opsone\Varnish\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -23,6 +22,9 @@ namespace Opsone\Varnish\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace Opsone\Varnish\Utility;
+
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
@@ -39,10 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class VarnishGeneralUtility
 {
-
-
     public static $extConf;
-
 
     /**
      * Devlog if enabled
@@ -55,8 +54,10 @@ class VarnishGeneralUtility
     public static function devLog($functionName, $additionalData = [])
     {
         if (self::getProperty('enableDevLog')) {
-            $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class)->getLogger(__CLASS__);
-            $logger->warning('varnish: '.$functionName, $additionalData);
+            $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                \TYPO3\CMS\Core\Log\LogManager::class
+            )->getLogger(__CLASS__);
+            $logger->warning('varnish: ' . $functionName, $additionalData);
         }
     }
 
@@ -68,7 +69,9 @@ class VarnishGeneralUtility
      */
     protected static function loadExtConf()
     {
-        self::$extConf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('varnish');
+        self::$extConf = GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get('varnish');
     }
 
 

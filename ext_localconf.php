@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,20 +27,23 @@ defined('TYPO3') or die();
 
 // Frontend: Load TyposSript to enable required FE settings by default
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-	'varnish',
-	'setup',
-	"@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'");
+    'varnish',
+    'setup',
+    "@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'"
+);
 
 // Icon Registry
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-	\TYPO3\CMS\Core\Imaging\IconRegistry::class
+    \TYPO3\CMS\Core\Imaging\IconRegistry::class
 );
 $iconRegistry->registerIcon(
-	'tx-varnish-logo',
-	\TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-	['source' => 'EXT:varnish/Resources/Public/Icons/Extension.gif']
+    'tx-varnish-logo',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:varnish/Resources/Public/Icons/Extension.gif']
 );
 
 // Backend Hooks
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] = Opsone\Varnish\Hooks\ClearCacheMenu::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['additionalBackendItems']['cacheActions'][] =
+    Opsone\Varnish\Hooks\ClearCacheMenu::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
+    'Opsone\\Varnish\\Hooks\\DataHandler->clearCachePostProc';

@@ -1,5 +1,4 @@
 <?php
-namespace Opsone\Varnish\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -23,12 +22,14 @@ namespace Opsone\Varnish\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+ namespace Opsone\Varnish\Controller;
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Opsone\Varnish\Controller\VarnishController;
-
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -39,7 +40,6 @@ use Opsone\Varnish\Controller\VarnishController;
  */
 class AjaxController
 {
-
     /**
      * Ban all pages from varnish cache.
      *
@@ -52,8 +52,14 @@ class AjaxController
     {
         # log command
         if (is_object($GLOBALS['BE_USER'])) {
-            $GLOBALS['BE_USER']->writelog(3, 1, 0, 0, 'User %s has cleared the Varnish cache',
-                array ($GLOBALS['BE_USER']->user['username']));
+            $GLOBALS['BE_USER']->writelog(
+                3,
+                1,
+                0,
+                0,
+                'User %s has cleared the Varnish cache',
+                array($GLOBALS['BE_USER']->user['username'])
+            );
         }
 
         /** @var VarnishController $varnishController */
@@ -61,7 +67,4 @@ class AjaxController
         $varnishController->clearCache('all');
         return new HtmlResponse('');
     }
-
 }
-
-
