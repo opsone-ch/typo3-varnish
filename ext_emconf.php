@@ -6,8 +6,8 @@
 
 $EM_CONF[$_EXTKEY] = array (
     'title' => 'Varnish for TYPO3',
-    'description' => 'Make your TYPO3 website blazing fast and stable for loads of simultaneous visitors. '
-                     'Seamless integration of TYPO3 cached pages into Varnish.',
+    'description' => 'Seamless integration of TYPO3 cached pages into Varnish.' .
+                     'Blazing fast response times for loads of simultaneous visitors.',
     'category' => 'misc',
     'shy' => 0,
     'version' => '6.0.0',
