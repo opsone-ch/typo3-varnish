@@ -1,7 +1,5 @@
 <?php
 
-namespace Opsone\Varnish\Hooks;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,9 +23,10 @@ namespace Opsone\Varnish\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace Opsone\Varnish\Hooks;
+
 use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-
 
 /**
  * This class contains required hooks which are called by TYPO3
@@ -38,8 +37,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  */
 class ClearCacheMenu implements ClearCacheActionsHookInterface
 {
-
-
     /**
      * Add varnish cache clearing to clearcachemenu
      *
@@ -56,7 +53,9 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
         }
 
         /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
-        $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
+        $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Backend\Routing\UriBuilder::class
+        );
         $cacheActions[] = array (
             'id' => 'varnish',
             'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_title',
@@ -66,5 +65,4 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
         );
         //TODO: can we make a clear SITE menu? - the current solution is clear T3INSTALL 🤔
     }
-
 }

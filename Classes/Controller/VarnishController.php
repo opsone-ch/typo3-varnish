@@ -1,7 +1,5 @@
 <?php
 
-namespace Opsone\Varnish\Controller;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -24,6 +22,9 @@ namespace Opsone\Varnish\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+namespace Opsone\Varnish\Controller;
+
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
 use Opsone\Varnish\Utility\VarnishHttpUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,8 +39,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  */
 class VarnishController
 {
-
-
     /**
      * List of Varnish hostnames
      *
@@ -74,16 +73,18 @@ class VarnishController
         if (empty($this->instanceHostnames)) {
             $this->instanceHostnames = GeneralUtility::getIndpEnv('HTTP_HOST');
         }
-        // convert Comma separated List into a Array
+        // convert comma separated list into an array
         $this->instanceHostnames = GeneralUtility::trimExplode(',', $this->instanceHostnames, true);
 
+        // assign intern server name
         $this->internalServer = VarnishGeneralUtility::getProperty('administrativeHost');
+
+        // assign extra headers
         $this->extraHeaders = VarnishGeneralUtility::getProperty('extraAdministrativeHeaders');
-        if ( !empty($this->extraHeaders) ){
+        if (!empty($this->extraHeaders)) {
             $this->extraHeaders = GeneralUtility::trimExplode('|', $this->extraHeaders, true);
         }
     }
-
 
     /**
      * ClearCache
@@ -105,35 +106,36 @@ class VarnishController
         // Log debug infos
         VarnishGeneralUtility::devLog('clearCache', array ('cacheCmd' => $cacheCmd));
 
-        $headers=['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
+        $headers = ['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
 
-        switch ( $cacheCmd ){
+        switch ($cacheCmd) {
             case 'all':
             case 'pages':
-                $headers[]='Varnish-Ban-All: 1';
+                $headers[] = 'Varnish-Ban-All: 1';
                 break;
             default:
-                if (MathUtility::canBeInterpretedAsInteger($cacheCmd)){                    
-                    $headers[]='Varnish-Ban-TYPO3-Pid: ' . $cacheCmd;
-                }else{
-                    $headers[]='xkey-purge: ' . $cacheCmd;
+                if (MathUtility::canBeInterpretedAsInteger($cacheCmd)) {
+                    $headers[] = 'Varnish-Ban-TYPO3-Pid: ' . $cacheCmd;
+                } else {
+                    $headers[] = 'xkey-purge: ' . $cacheCmd;
                 }
         }
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
 
-        if ( !empty($this->extraHeaders) ){
-            $headers = array_merge($headers,$this->extraHeaders);
+        if (empty($this->extraHeaders)) {
+            $headers = array_merge($headers, $this->extraHeaders);
         }
 
         // issue command on every Varnish Server
         /** @var $varnishHttp VarnishHttpUtility */
         $varnishHttp = GeneralUtility::makeInstance(VarnishHttpUtility::class);
         foreach ($this->instanceHostnames as $currentHost) {
-            if ( !empty($this->internalServer) ){                
-                VarnishGeneralUtility::devLog('clearCache', array_merge($headers,["Host: ".$currentHost]));
-                $varnishHttp::addCommand($method, $this->internalServer, array_merge($headers,["Host: ".$currentHost]));
-            }else{
-                VarnishGeneralUtility::devLog('clearCache', array ('headers' => $headers));
+            if (!empty($this->internalServer)) {
+                VarnishGeneralUtility::devLog('clearCache', array_merge($headers, ['Host: ' . $currentHost]));
+                $varnishHttp::addCommand($method, $this->internalServer,
+                    array_merge($headers, ['Host: ' . $currentHost]);
+            } else {
+                VarnishGeneralUtility::devLog('clearCache', array('headers' => $headers));
                 $varnishHttp::addCommand($method, $currentHost, $headers);
             }
         }

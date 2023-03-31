@@ -1,7 +1,5 @@
 <?php
 
-namespace Opsone\Varnish\Middleware;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -25,6 +23,8 @@ namespace Opsone\Varnish\Middleware;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace Opsone\Varnish\Middleware;
+
 use Opsone\Varnish\Events\ProcessXtagsEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -37,65 +37,73 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FrontendSendHeader implements MiddlewareInterface
 {
+    private ?EventDispatcherInterface $eventDispatcher = null;
 
-  private ?EventDispatcherInterface $eventDispatcher=null;
-  public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void{ $this->eventDispatcher = $eventDispatcher; }
-
-  public function process(
-    ServerRequestInterface $request,
-    RequestHandlerInterface $handler
-  ): ResponseInterface {
-    $response = $handler->handle($request);
-    /** @var \TYPO3\CMS\Core\Http\NormalizedParams */
-    $requestNormalizedParams = $request->getAttribute('normalizedParams');
-
-    // determine whether we need to add the additional headers
-    if(
-      $requestNormalizedParams->isBehindReverseProxy() === true ||
-      (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1
-    ) {
-      /** @var \GuzzleHttp\Psr7\ServerRequest $response */
-      // add the TYPO3-Pid header
-      $response = $response->withHeader(
-        'TYPO3-Pid',
-        (string)$request->getAttribute('routing')['pageId']
-      );    
-      
-      // add the TYPO3-Sitename header
-      $response = $response->withHeader(
-        'TYPO3-Sitename',
-         VarnishGeneralUtility::getSitename()
-      );
-
-      if ( (int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1 ){
-        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $tsfe */
-        $tsfe=$GLOBALS['TSFE'];
-        $tags=array_unique($tsfe->getPageCacheTags());
-        //PSR-14 signal to process $tags before we send them
-        /** @var ProcessXtagsEvent */
-        $event = $this->eventDispatcher->dispatch( new ProcessXtagsEvent($tags) );
-        $tags=$event->getXtags();
-
-        if ( empty($tags) ){
-          //TODO: This can (aparently) happen if the first page request to a page that isn't cached by typo3 happened by a user with cookies ( fe_users, etc ) set
-          //TODO: $tsfe->pageArguments->getArguments()['cHash']
-          //TODO: store the tags by chash and fetch them later
-          //TODO: This has yet to happen so far - mabe because we nuke all other cookies than be_user in varnish for everything besides pages that need it
-          $response=$response->withHeader('X-no-tags','it happened');
-        }
-        if ( !empty($tags) ){
-          $tags[]='siteId_'.VarnishGeneralUtility::getSitename();
-          // add the xkey header
-          $response = $response->withHeader(
-            'xkey',
-            implode(' ',$tags) //Not all xkey versions/implementations understand multiheader collapse - but they should all support single header collapsed with space
-          );
-        }
-      }      
+    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
-    return $response;
-  }
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+        $response = $handler->handle($request);
+        /** @var \TYPO3\CMS\Core\Http\NormalizedParams */
+        $requestNormalizedParams = $request->getAttribute('normalizedParams');
 
+        // determine whether we need to add the additional headers
+        if (
+            $requestNormalizedParams->isBehindReverseProxy() === true ||
+            (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1
+        ) {
+            /** @var \GuzzleHttp\Psr7\ServerRequest $response */
+            // add the TYPO3-Pid header
+            $response = $response->withHeader(
+                'TYPO3-Pid',
+                (string)$request->getAttribute('routing')['pageId']
+            );
+
+            // add the TYPO3-Sitename header
+            $response = $response->withHeader(
+                'TYPO3-Sitename',
+                VarnishGeneralUtility::getSitename()
+            );
+
+            if ((int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1) {
+                /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $tsfe */
+                $tsfe = $GLOBALS['TSFE'];
+                $tags = array_unique($tsfe->getPageCacheTags());
+                //PSR-14 signal to process $tags before we send them
+                /** @var ProcessXtagsEvent */
+                $event = $this->eventDispatcher->dispatch(new ProcessXtagsEvent($tags));
+                $tags = $event->getXtags();
+
+                if (empty($tags)) {
+                    /*
+                     * TODO:
+                     * This can (aparently) happen if the first page request to a page that isn't cached by typo3
+                     * happened by a user with cookies ( fe_users, etc ) set
+                     * $tsfe->pageArguments->getArguments()['cHash']
+                     * store the tags by chash and fetch them later
+                     * This has yet to happen so far - mabe because we nuke all other cookies than be_user in varnish
+                     * for everything besides pages that need it
+                     */
+                    $response = $response->withHeader('X-no-tags', 'it happened');
+                }
+                if (!empty($tags)) {
+                    $tags[] = 'siteId_' . VarnishGeneralUtility::getSitename();
+                    // add the xkey header
+                    $response = $response->withHeader(
+                        'xkey',
+                        // not all xkey versions/implementations understand multiheader collapse - but they should all
+                        // support single header collapsed with space
+                        implode(' ', $tags)
+                    );
+                }
+            }
+        }
+
+        return $response;
+    }
 }
-
