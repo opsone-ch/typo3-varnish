@@ -49,11 +49,6 @@ class VarnishHttpUtility
      */
     public function __construct()
     {
-        // check whether the cURL PHP Extension is loaded
-        if (!extension_loaded('curl')) {
-            throw new \RuntimeException('The cURL PHP Extension is required by ext_varnish.');
-        }
-
         // initialize cURL Multi-Handle Queue
         self::initQueue();
     }
