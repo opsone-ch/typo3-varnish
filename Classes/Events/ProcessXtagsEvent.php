@@ -25,7 +25,8 @@
 
 namespace Opsone\Varnish\Events;
 
-class ProcessXtagsEvent implements \Psr\EventDispatcher\StoppableEventInterface
+use Psr\EventDispatcher\StoppableEventInterface;
+class ProcessXtagsEvent implements StoppableEventInterface
 {
     private array $xtags;
     private bool $isStopped;
@@ -90,7 +91,7 @@ class ProcessXtagsEvent implements \Psr\EventDispatcher\StoppableEventInterface
      */
     public function addTag(string $tag): bool
     {
-        if ($this->hasTag($tag) {
+        if ($this->hasTag($tag)) {
             return false;
         }
         $this->xtags[$tag] = true;

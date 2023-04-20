@@ -132,8 +132,7 @@ class VarnishController
         foreach ($this->instanceHostnames as $currentHost) {
             if (!empty($this->internalServer)) {
                 VarnishGeneralUtility::devLog('clearCache', array_merge($headers, ['Host: ' . $currentHost]));
-                $varnishHttp::addCommand($method, $this->internalServer,
-                    array_merge($headers, ['Host: ' . $currentHost]);
+                $varnishHttp::addCommand($method, $this->internalServer, array_merge($headers, ['Host: ' . $currentHost]));
             } else {
                 VarnishGeneralUtility::devLog('clearCache', array('headers' => $headers));
                 $varnishHttp::addCommand($method, $currentHost, $headers);

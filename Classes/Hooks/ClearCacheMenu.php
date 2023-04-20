@@ -25,6 +25,8 @@
 
 namespace Opsone\Varnish\Hooks;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
@@ -53,8 +55,8 @@ class ClearCacheMenu implements ClearCacheActionsHookInterface
         }
 
         /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
-        $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Backend\Routing\UriBuilder::class
+        $uriBuilder = GeneralUtility::makeInstance(
+            UriBuilder::class
         );
         $cacheActions[] = array (
             'id' => 'varnish',
