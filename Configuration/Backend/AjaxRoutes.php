@@ -22,6 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use Opsone\Varnish\Controller\AjaxController;
 use TYPO3\CMS\Backend\Controller;
 

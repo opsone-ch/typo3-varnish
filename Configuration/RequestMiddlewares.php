@@ -1,6 +1,7 @@
 <?php
 
 use Opsone\Varnish\Middleware\FrontendSendHeader;
+
 return [
     'frontend' => [
         'opsone/varnish/frontend/send-header' => [

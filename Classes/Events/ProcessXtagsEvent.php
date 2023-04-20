@@ -26,6 +26,7 @@
 namespace Opsone\Varnish\Events;
 
 use Psr\EventDispatcher\StoppableEventInterface;
+
 class ProcessXtagsEvent implements StoppableEventInterface
 {
     private array $xtags;
