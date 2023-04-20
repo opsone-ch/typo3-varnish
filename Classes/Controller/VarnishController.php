@@ -122,7 +122,7 @@ class VarnishController
         }
         $method = VarnishGeneralUtility::getProperty('banRequestMethod') ?: 'BAN';
 
-        if (empty($this->extraHeaders)) {
+        if (!empty($this->extraHeaders)) {
             $headers = array_merge($headers, $this->extraHeaders);
         }
 
