@@ -40,9 +40,9 @@ final class ClearCacheListener
             return;
         }
 
-	// add cache action
+        // add cache action
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-	$modifyClearCacheActionsEvent->addCacheAction([
+        $modifyClearCacheActionsEvent->addCacheAction([
             'id' => 'varnish',
             'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_title',
             'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_description',
@@ -51,4 +51,3 @@ final class ClearCacheListener
         ]);
     }
 }
-
