@@ -23,48 +23,31 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace Opsone\Varnish\Hooks;
+declare(strict_types=1);
 
+namespace Opsone\Varnish\Backend\EventListener;
+
+use TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Backend\Toolbar\ClearCacheActionsHookInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 
-/**
- * This class contains required hooks which are called by TYPO3
- *
- * @author    Andri Steiner  <team@opsone.ch>
- * @package    TYPO3
- * @subpackage    tx_varnish
- */
-class ClearCacheMenu implements ClearCacheActionsHookInterface
+final class ClearCacheListener
 {
-    /**
-     * Add varnish cache clearing to clearcachemenu
-     *
-     * @param array $cacheActions The action
-     * @param array $optionValues The values
-     *
-     * @return void
-     */
-    public function manipulateCacheActions(&$cacheActions, &$optionValues)
+    public function __invoke(ModifyClearCacheActionsEvent $modifyClearCacheActionsEvent): void
     {
-        // show menu button only admins
+        // process for admin users only
         if (!$GLOBALS['BE_USER']->isAdmin()) {
             return;
         }
 
-        /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
-        $uriBuilder = GeneralUtility::makeInstance(
-            UriBuilder::class
-        );
-        $cacheActions[] = array (
+        // add cache action
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $modifyClearCacheActionsEvent->addCacheAction([
             'id' => 'varnish',
             'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_title',
             'description' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_description',
             'href' => $uriBuilder->buildUriFromRoute('ajax_varnish_banall'),
             'iconIdentifier' => 'tx-varnish-logo',
-        );
-        //TODO: can we make a clear SITE menu? - the current solution is clear T3INSTALL 🤔
+        ]);
     }
 }

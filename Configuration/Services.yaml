@@ -8,5 +8,10 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
+  Opsone\Varnish\Backend\EventListener\ClearCacheListener:
+    tags:
+      - name: event.listener
+        event: TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent
+
   # Opsone\Varnish\Middleware\FrontendSendHeader:
   #   public: true
