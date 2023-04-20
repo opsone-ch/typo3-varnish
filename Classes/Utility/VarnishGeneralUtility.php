@@ -30,6 +30,8 @@ namespace Opsone\Varnish\Utility;
  *
  * Hint: use extdeveval to insert/update function index above.
  */
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -54,8 +56,8 @@ class VarnishGeneralUtility
     public static function devLog($functionName, $additionalData = [])
     {
         if (self::getProperty('enableDevLog')) {
-            $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\Log\LogManager::class
+            $logger = GeneralUtility::makeInstance(
+                LogManager::class
             )->getLogger(__CLASS__);
             $logger->warning('varnish: ' . $functionName, $additionalData);
         }
@@ -70,7 +72,7 @@ class VarnishGeneralUtility
     protected static function loadExtConf()
     {
         self::$extConf = GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+            ExtensionConfiguration::class
         )->get('varnish');
     }
 

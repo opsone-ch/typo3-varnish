@@ -25,6 +25,7 @@
 
 namespace Opsone\Varnish\Hooks;
 
+use TYPO3\CMS\Core\Database\Connection;
 use Opsone\Varnish\Controller\VarnishController;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -87,7 +88,7 @@ class DataHandler
                                         'records',
                                         $queryBuilder->createNamedParameter(
                                             '%' . $queryBuilder->escapeLikeWildcards($key) . '%',
-                                            \TYPO3\CMS\Core\Database\Connection::PARAM_STR
+                                            Connection::PARAM_STR
                                         )
                                     )
                             );

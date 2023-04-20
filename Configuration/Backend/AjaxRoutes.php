@@ -23,12 +23,13 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Opsone\Varnish\Controller\AjaxController;
 use TYPO3\CMS\Backend\Controller;
 
 return [
     'varnish_banall' => [
         'path' => '/varnish/banall',
         'access' => 'admin',
-        'target' => \Opsone\Varnish\Controller\AjaxController::class . '::banAll',
+        'target' => AjaxController::class . '::banAll',
     ],
 ];
