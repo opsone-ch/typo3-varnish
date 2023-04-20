@@ -43,12 +43,11 @@ class AjaxController
     /**
      * Ban all pages from varnish cache.
      *
-     * @param ServerRequestInterface $request the current request
      * @param ResponseInterface $response the current response
      * @return ResponseInterface
      * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
      */
-    public function banAll(ServerRequestInterface $request): ResponseInterface
+    public function banAll(): ResponseInterface
     {
         # log command
         if (is_object($GLOBALS['BE_USER'])) {
