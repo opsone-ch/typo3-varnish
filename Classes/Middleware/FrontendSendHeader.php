@@ -81,7 +81,6 @@ class FrontendSendHeader implements MiddlewareInterface
 
                 if (empty($tags)) {
                     /*
-                     * TODO:
                      * This can (aparently) happen if the first page request to a page that isn't cached by typo3
                      * happened by a user with cookies ( fe_users, etc ) set
                      * $tsfe->pageArguments->getArguments()['cHash']
