@@ -74,7 +74,7 @@ class DataHandler
                 $cacheCmd[] = $key;
 
                 //Handles clearing pages where content is linked
-                $this->clearCacheOfPagesThatLinksToContent($key,$parent);
+                $this->clearCacheOfPagesThatLinksToContent($key, $parent);
             }
             $cacheCmd = implode(' ', $cacheCmd);
         } else {
@@ -84,9 +84,10 @@ class DataHandler
         $varnishController->clearCache($cacheCmd);
     }
 
-    protected function clearCacheOfPagesThatLinksToContent($key, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler){
+    protected function clearCacheOfPagesThatLinksToContent($key, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler)
+    {
         if (strpos($key, 'tt_content_') !== 0) {
-             return ; 
+            return ;
         }
         /**
          * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
@@ -113,6 +114,5 @@ class DataHandler
         foreach ($linkingPids as $row) {
             $dataHandler->clear_cacheCmd($row['pid']);
         }
-
     }
 }
