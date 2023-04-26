@@ -59,61 +59,60 @@ class DataHandler
         // use either cacheCmd or uid_page
         if (isset($params['cacheCmd'])) {
             $cacheCmd = $params['cacheCmd'];
-        } else {
-            if (VarnishGeneralUtility::getProperty('sendXkeyTags')) {
-                $cacheCmd = [];
-                //Tags that goes too far, eg "tt_content" is sendt every time you update ANY content element!
-                $badTags = ['tt_content','sys_template','sys_file_reference'];
-                foreach ($params['tags'] as $key => $val) {
-                    if ($val !== true || in_array($key, $badTags)) {
-                        continue;
-                    }
-
-                    //Use valid tags for xkey banning
-                    $cacheCmd[] = $key;
-
-                    //Handles clearing pages where content is linked
-                    if (strpos($key, 'tt_content_') === 0) {
-                        /**
-                         * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
-                         */
-                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-                            ->getQueryBuilderForTable('tt_content');
-                        $query = $queryBuilder
-                            ->selectLiteral('DISTINCT pid')
-                            ->from('tt_content')
-                            ->where(
-                                $queryBuilder->expr()
-                                    ->like(
-                                        'records',
-                                        $queryBuilder->createNamedParameter(
-                                            '%' . $queryBuilder->escapeLikeWildcards($key) . '%',
-                                            Connection::PARAM_STR
-                                        )
-                                    )
-                            );
-                        if (method_exists($query, 'executeQuery')) {
-                            //t3 v10
-                            $linkingPids = $query
-                                ->execute()
-                                ->fetchAll();
-                        } else {
-                            //t3 v11+
-                            $linkingPids = $query
-                                ->executeQuery()
-                                ->fetchAllAssociative();
-                        }
-                        foreach ($linkingPids as $row) {
-                            $parent->clear_cacheCmd($row['pid']);
-                        }
-                    }
-                }
-                $cacheCmd = implode(' ', $cacheCmd);
-            } else {
-                $cacheCmd = $params['uid_page'];
-            }
-            VarnishGeneralUtility::devLog('clearCachePostProc', $params);
+            return $varnishController->clearCache($cacheCmd);
         }
+        if (VarnishGeneralUtility::getProperty('sendXkeyTags')) {
+            $cacheCmd = [];
+            //Tags that goes too far, eg "tt_content" is sendt every time you update ANY content element!
+            $badTags = ['tt_content','sys_template','sys_file_reference'];
+            foreach ($params['tags'] as $key => $val) {
+                if ($val !== true || in_array($key, $badTags)) {
+                    continue;
+                }
+
+                //Use valid tags for xkey banning
+                $cacheCmd[] = $key;
+
+                //Handles clearing pages where content is linked
+                $this->clearCacheOfPagesThatLinksToContent($key,$parent);
+            }
+            $cacheCmd = implode(' ', $cacheCmd);
+        } else {
+            $cacheCmd = $params['uid_page'];
+        }
+        VarnishGeneralUtility::devLog('clearCachePostProc', $params);
         $varnishController->clearCache($cacheCmd);
+    }
+
+    protected function clearCacheOfPagesThatLinksToContent($key, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler){
+        if (strpos($key, 'tt_content_') !== 0) {
+             return ; 
+        }
+        /**
+         * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
+         */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tt_content');
+        $query = $queryBuilder
+            ->selectLiteral('DISTINCT pid')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()
+                    ->like(
+                        'records',
+                        $queryBuilder->createNamedParameter(
+                            '%' . $queryBuilder->escapeLikeWildcards($key) . '%',
+                            Connection::PARAM_STR
+                        )
+                    )
+            );
+        $linkingPids = $query
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        foreach ($linkingPids as $row) {
+            $dataHandler->clear_cacheCmd($row['pid']);
+        }
+
     }
 }
