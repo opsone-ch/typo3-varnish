@@ -58,11 +58,13 @@ class FrontendSendHeader implements MiddlewareInterface
             (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1
         ) {
             /** @var \GuzzleHttp\Psr7\ServerRequest $response */
-            // add the TYPO3-Pid header
-            $response = $response->withHeader(
-                'TYPO3-Pid',
-                (string)$request->getAttribute('routing')['pageId']
-            );
+            if (!$response->hasHeader('TYPO3-Pid')) {
+                // add the TYPO3-Pid header
+                $response = $response->withHeader(
+                    'TYPO3-Pid',
+                    (string)$request->getAttribute('routing')['pageId']
+                );
+            }
 
             // add the TYPO3-Sitename header
             $response = $response->withHeader(
