@@ -1,6 +1,6 @@
 
 # send cache headers to Varnish servers listed in [SYS][reverseProxyIP]
-[request.getNormalizedParams() && request.getNormalizedParams().isBehindReverseProxy()]
+[request && request.getNormalizedParams() && request.getNormalizedParams().isBehindReverseProxy()]
 	config.sendCacheHeaders = 1
 [END]
 
