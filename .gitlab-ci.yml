@@ -21,7 +21,7 @@ test-sonarqube:
 # PHP_CodeSniffer
 test-syntax:
   stage: test
-  image: php:8.2
+  image: php:8.4
   script:
     - curl --silent --output /tmp/phpcs.phar https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
     - php /tmp/phpcs.phar --standard=PSR12 --report=junit --report-file=report.xml .
