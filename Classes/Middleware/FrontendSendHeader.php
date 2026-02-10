@@ -32,6 +32,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
+use TYPO3\CMS\Core\Cache\CacheTag;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -73,9 +74,8 @@ class FrontendSendHeader implements MiddlewareInterface
             );
 
             if ((int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1) {
-                /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $tsfe */
-                $tsfe = $GLOBALS['TSFE'];
-                $tags = array_unique($tsfe->getPageCacheTags());
+                $cacheTags = $request->getAttribute('frontend.cache.collector')->getCacheTags();
+                $tags = array_unique(array_map(static fn(CacheTag $cacheTag) => $cacheTag->name, $cacheTags));
                 //PSR-14 signal to process $tags before we send them
                 /** @var ProcessXtagsEvent */
                 $event = $this->eventDispatcher->dispatch(new ProcessXtagsEvent($tags));
