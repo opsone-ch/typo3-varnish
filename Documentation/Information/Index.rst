@@ -16,6 +16,7 @@ Compatibility
 - version 5 is compatible with TYPO3 versions 10.4 and 11.5
 - version 6 is compatible with TYPO3 versions 11.5 and 12.4
 - version 7 is compatible with TYPO3 versions 12.4 and 13.4
+- version 8 is compatible with TYPO3 versions 13.4 and 14.3
 
 Best Practices
 ==============
@@ -43,4 +44,3 @@ Development
 
 This extension is managed on GitLab. Feel free to get in touch at
 https://gitlab.com/opsone_ch/typo3/varnish/.
-
