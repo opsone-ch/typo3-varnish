@@ -30,6 +30,7 @@ namespace Opsone\Varnish\Utility;
  *
  * Hint: use extdeveval to insert/update function index above.
  */
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -53,12 +54,12 @@ class VarnishGeneralUtility
      *
      * @return void
      */
-    public static function devLog($functionName, $additionalData = [])
+    public static function devLog($functionName, $additionalData = []): void
     {
         if (self::getProperty('enableDevLog')) {
             $logger = GeneralUtility::makeInstance(
                 LogManager::class
-            )->getLogger(__CLASS__);
+            )->getLogger(self::class);
             $logger->warning('varnish: ' . $functionName, $additionalData);
         }
     }
@@ -84,7 +85,7 @@ class VarnishGeneralUtility
      */
     public static function getSitename()
     {
-        return GeneralUtility::hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
+        return GeneralUtility::makeInstance(HashService::class)->hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'], 'changeMe');
     }
 
 

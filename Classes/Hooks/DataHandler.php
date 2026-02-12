@@ -25,6 +25,7 @@
 
 namespace Opsone\Varnish\Hooks;
 
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Connection;
 use Opsone\Varnish\Controller\VarnishController;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
@@ -40,6 +41,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandler
 {
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
     /**
      * Clear cache hook
      *
@@ -86,13 +90,13 @@ class DataHandler
 
     protected function clearCacheOfPagesThatLinksToContent($key, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler)
     {
-        if (strpos($key, 'tt_content_') !== 0) {
+        if (!str_starts_with((string) $key, 'tt_content_')) {
             return ;
         }
         /**
-         * @var \TYPO3\CMS\Core\Database\Query\QueryBuilder
+         * @var QueryBuilder
          */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+        $queryBuilder = $this->connectionPool
             ->getQueryBuilderForTable('tt_content');
         $query = $queryBuilder
             ->selectLiteral('DISTINCT pid')
