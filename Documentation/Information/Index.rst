@@ -23,12 +23,9 @@ Best Practices
 - do not use sessions
 - do not set no_cache=1
 - do not use _INT objects
-- do not use server-side switches based on clients/browsers properties/settings, e.g. user-agent
-  or IP address
+- do not use server-side switches based on clients/browsers properties/settings, e.g. user-agent or IP address
 
-It is generally wise to avoid those objects by adapting the
-extension or replace really required dynamic functions with
-AJAX calls.
+It is generally wise to avoid those objects by adapting the extension or replace really required dynamic functions with AJAX calls.
 
 Support
 =======
@@ -41,6 +38,4 @@ Feel free to contact us at team@opsone.ch if you need commercial support.
 Development
 ===========
 
-This extension is managed on GitLab. Feel free to get in touch at
-https://gitlab.com/opsone_ch/typo3/varnish/.
-
+This extension is managed on GitLab. Feel free to get in touch at https://gitlab.com/opsone_ch/typo3/varnish/
