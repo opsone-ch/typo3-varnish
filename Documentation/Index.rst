@@ -27,7 +27,7 @@ Varnish for TYPO3 (EXT:varnish)
 		Varnish is the fastest, most flexible and cost efficient web accelerator available for your online business. It speeds up your website and boosts user loyalty and customer conversion rate and helps to save hosting costs.
 
 	:Copyright:
-		Ops One AG, 2013 - 2021
+		Ops One AG, 2013 - 2026
 
 	:Author:
 		Andri Steiner, Ops One AG
