@@ -104,7 +104,7 @@ class VarnishController
         }
 
         // Log debug infos
-        VarnishGeneralUtility::devLog('clearCache',  ['cacheCmd' => $cacheCmd]);
+        VarnishGeneralUtility::devLog('clearCache', ['cacheCmd' => $cacheCmd]);
 
         $headers = ['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
 

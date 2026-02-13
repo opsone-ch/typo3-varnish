@@ -72,7 +72,9 @@ class FrontendSendHeader implements MiddlewareInterface
             if ((int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1) {
                 /** @var TypoScriptFrontendController $tsfe */
                 $tsfe = $GLOBALS['TSFE'];
-                $tags = array_unique($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.cache.collector')->getCacheTags());
+                $tags = array_unique(
+                    $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.cache.collector')->getCacheTags()
+                );
                 //PSR-14 signal to process $tags before we send them
                 /** @var ProcessXtagsEvent */
                 $event = $this->eventDispatcher->dispatch(new ProcessXtagsEvent($tags));
