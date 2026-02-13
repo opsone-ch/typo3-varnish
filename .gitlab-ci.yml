@@ -5,19 +5,6 @@ stages:
 variables:
   GIT_DEPTH: 0
 
-# SonarQube
-# see https://sonarcloud.io/dashboard?id=typo3-varnish
-test-sonarqube:
-  image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
-  script:
-    - sonar-scanner -Dsonar.qualitygate.wait=true
-  only:
-    - branches@opsone_ch/typo3/varnish
-
 # PHP_CodeSniffer
 test-syntax:
   stage: test
@@ -32,4 +19,3 @@ test-syntax:
     when: always
     reports:
       junit: report.xml
-
