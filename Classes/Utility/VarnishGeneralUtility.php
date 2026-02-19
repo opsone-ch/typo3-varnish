@@ -32,6 +32,7 @@ namespace Opsone\Varnish\Utility;
  */
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -84,7 +85,8 @@ class VarnishGeneralUtility
      */
     public static function getSitename()
     {
-        return GeneralUtility::hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']);
+        $hashService = GeneralUtility::makeInstance(HashService::class);
+        return $hashService->hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'], 'varnish');
     }
 
 
