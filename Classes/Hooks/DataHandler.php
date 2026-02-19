@@ -25,9 +25,11 @@
 
 namespace Opsone\Varnish\Hooks;
 
-use TYPO3\CMS\Core\Database\Connection;
 use Opsone\Varnish\Controller\VarnishController;
+use Opsone\Varnish\Events\ModifyCacheCmdEvent;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -40,6 +42,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandler
 {
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+    ) {}
     /**
      * Clear cache hook
      *
@@ -76,7 +81,9 @@ class DataHandler
                 //Handles clearing pages where content is linked
                 $this->clearCacheOfPagesThatLinksToContent($key, $parent);
             }
-            $cacheCmd = implode(' ', $cacheCmd);
+            /** @var ModifyCacheCmdEvent $event */
+            $event = $this->eventDispatcher->dispatch(new ModifyCacheCmdEvent($cacheCmd, $params));
+            $cacheCmd = implode(' ', $event->getCacheCmd());
         } else {
             $cacheCmd = $params['uid_page'];
         }
