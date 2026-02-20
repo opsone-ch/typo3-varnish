@@ -86,7 +86,7 @@ class VarnishGeneralUtility
     public static function getSitename()
     {
         return GeneralUtility::makeInstance(HashService::class)
-            ->hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'], 'changeMe');
+            ->hmac($GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename'], 'varnish');
     }
 
 
