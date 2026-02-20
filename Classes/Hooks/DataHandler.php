@@ -41,9 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandler
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
-    }
     /**
      * Clear cache hook
      *
