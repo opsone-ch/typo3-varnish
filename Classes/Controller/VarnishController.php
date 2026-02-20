@@ -44,14 +44,14 @@ class VarnishController
      *
      * @var array
      */
-    protected $instanceHostnames = array ();
+    protected $instanceHostnames =  [];
 
     /**
      * List of extra headers to send to the Varnish host
      *
      * @var array
      */
-    protected $extraHeaders = array ();
+    protected $extraHeaders =  [];
 
     /**
      * Internal backend Instance
@@ -96,7 +96,7 @@ class VarnishController
      *
      * @throws \InvalidArgumentException
      */
-    public function clearCache($cacheCmd)
+    public function clearCache($cacheCmd): void
     {
         // if cacheCmd is -1, were in a draft workspace and skip Varnish clearing all together
         if ($cacheCmd === -1) {
@@ -104,7 +104,7 @@ class VarnishController
         }
 
         // Log debug infos
-        VarnishGeneralUtility::devLog('clearCache', array ('cacheCmd' => $cacheCmd));
+        VarnishGeneralUtility::devLog('clearCache', ['cacheCmd' => $cacheCmd]);
 
         $headers = ['Varnish-Ban-TYPO3-Sitename: ' . VarnishGeneralUtility::getSitename()];
 
@@ -138,7 +138,7 @@ class VarnishController
                     array_merge($headers, ['Host: ' . $currentHost])
                 );
             } else {
-                VarnishGeneralUtility::devLog('clearCache', array('headers' => $headers));
+                VarnishGeneralUtility::devLog('clearCache', ['headers' => $headers]);
                 $varnishHttp::addCommand($method, $currentHost, $headers);
             }
         }

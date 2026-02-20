@@ -25,8 +25,8 @@
 
  namespace Opsone\Varnish\Controller;
 
+use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Opsone\Varnish\Controller\VarnishController;
@@ -45,7 +45,7 @@ class AjaxController
      *
      * @param ResponseInterface $response the current response
      * @return ResponseInterface
-     * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
+     * @throws NoSuchCacheException
      */
     public function banAll(): ResponseInterface
     {
@@ -57,7 +57,7 @@ class AjaxController
                 0,
                 0,
                 'User %s has cleared the Varnish cache',
-                array($GLOBALS['BE_USER']->user['username'])
+                [$GLOBALS['BE_USER']->user['username']]
             );
         }
 

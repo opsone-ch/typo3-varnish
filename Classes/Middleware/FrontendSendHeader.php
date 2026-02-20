@@ -25,6 +25,9 @@
 
 namespace Opsone\Varnish\Middleware;
 
+use TYPO3\CMS\Core\Http\NormalizedParams;
+use GuzzleHttp\Psr7\ServerRequest;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Opsone\Varnish\Events\ProcessXtagsEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -32,25 +35,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Opsone\Varnish\Utility\VarnishGeneralUtility;
-use TYPO3\CMS\Core\Cache\CacheTag;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FrontendSendHeader implements MiddlewareInterface
 {
-    private ?EventDispatcherInterface $eventDispatcher = null;
-
-    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    public function __construct(private readonly ?EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
     }
-
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
         $response = $handler->handle($request);
-        /** @var \TYPO3\CMS\Core\Http\NormalizedParams */
+        /** @var NormalizedParams */
         $requestNormalizedParams = $request->getAttribute('normalizedParams');
 
         // determine whether we need to add the additional headers
@@ -58,7 +54,7 @@ class FrontendSendHeader implements MiddlewareInterface
             $requestNormalizedParams->isBehindReverseProxy() === true ||
             (int)VarnishGeneralUtility::getProperty('alwaysSendTypo3Headers') === 1
         ) {
-            /** @var \GuzzleHttp\Psr7\ServerRequest $response */
+            /** @var ServerRequest $response */
             if (!$response->hasHeader('TYPO3-Pid')) {
                 // add the TYPO3-Pid header
                 $response = $response->withHeader(
@@ -74,8 +70,11 @@ class FrontendSendHeader implements MiddlewareInterface
             );
 
             if ((int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1) {
-                $cacheTags = $request->getAttribute('frontend.cache.collector')->getCacheTags();
-                $tags = array_unique(array_map(static fn(CacheTag $cacheTag) => $cacheTag->name, $cacheTags));
+                /** @var TypoScriptFrontendController $tsfe */
+                $tsfe = $GLOBALS['TSFE'];
+                $tags = array_unique(
+                    $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.cache.collector')->getCacheTags()
+                );
                 //PSR-14 signal to process $tags before we send them
                 /** @var ProcessXtagsEvent */
                 $event = $this->eventDispatcher->dispatch(new ProcessXtagsEvent($tags));

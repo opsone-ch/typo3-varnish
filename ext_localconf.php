@@ -23,10 +23,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-defined('TYPO3') or die();
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+defined('TYPO3') || die();
 
 // Frontend: Load TyposSript to enable required FE settings by default
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+ExtensionManagementUtility::addTypoScript(
     'varnish',
     'setup',
     "@import 'EXT:varnish/Configuration/TypoScript/setup.typoscript'"

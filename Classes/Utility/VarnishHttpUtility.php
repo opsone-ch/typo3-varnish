@@ -74,23 +74,23 @@ class VarnishHttpUtility
      *
      * @return void
      */
-    public static function addCommand($method, $url, $header = '')
+    public static function addCommand($method, $url, $header = ''): void
     {
         // Header is expected as array always
         /** @noinspection ArrayCastingEquivalentInspection */
         if (!is_array($header)) {
-            $header = array ($header);
+            $header =  [$header];
         }
 
         // create Handle and add it to the Multi-Handle Queue
         $curlHandle = curl_init();
-        $curlOptions = array (
+        $curlOptions =  [
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => $header,
             CURLOPT_TIMEOUT => 1,
             CURLOPT_RETURNTRANSFER => 1,
-        );
+        ];
 
         curl_setopt_array($curlHandle, $curlOptions);
         curl_multi_add_handle(self::$curlQueue, $curlHandle);

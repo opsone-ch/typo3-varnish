@@ -24,7 +24,6 @@
  ***************************************************************/
 
 use Opsone\Varnish\Controller\AjaxController;
-use TYPO3\CMS\Backend\Controller;
 
 return [
     'varnish_banall' => [

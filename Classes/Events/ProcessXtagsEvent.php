@@ -30,7 +30,7 @@ use Psr\EventDispatcher\StoppableEventInterface;
 class ProcessXtagsEvent implements StoppableEventInterface
 {
     private array $xtags;
-    private bool $isStopped;
+    private bool $isStopped = false;
 
     /**
      * Creates an Xtag event
@@ -41,7 +41,6 @@ class ProcessXtagsEvent implements StoppableEventInterface
     {
         //Flip the array so it's easier to manipulate the individual keys
         $this->xtags = array_flip($xtags);
-        $this->isStopped = false;
     }
 
     /**
@@ -51,7 +50,7 @@ class ProcessXtagsEvent implements StoppableEventInterface
      *
      * @return void
      */
-    public function stopPropagation()
+    public function stopPropagation(): void
     {
         $this->isStopped = true;
     }

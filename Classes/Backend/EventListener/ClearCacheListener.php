@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
 
 /***************************************************************
  *  Copyright notice
@@ -28,11 +28,13 @@ declare(strict_types=1);
 namespace Opsone\Varnish\Backend\EventListener;
 
 use TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
-final class ClearCacheListener
+final readonly class ClearCacheListener
 {
+    public function __construct(private UriBuilder $uriBuilder)
+    {
+    }
     public function __invoke(ModifyClearCacheActionsEvent $modifyClearCacheActionsEvent): void
     {
         // process for admin users only
@@ -41,7 +43,7 @@ final class ClearCacheListener
         }
 
         // add cache action
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        $uriBuilder = $this->uriBuilder;
         $modifyClearCacheActionsEvent->addCacheAction([
             'id' => 'varnish',
             'title' => 'LLL:EXT:varnish/Resources/Private/Language/locallang.xlf:be_clear_cache_title',
