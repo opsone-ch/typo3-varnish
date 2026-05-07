@@ -41,6 +41,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandler
 {
+    protected ?ConnectionPool $connectionPool = null;
+
     /**
      * Clear cache hook
      *
@@ -90,6 +92,7 @@ class DataHandler
         if (!str_starts_with((string) $key, 'tt_content_')) {
             return ;
         }
+        $this->connectionPool ??= GeneralUtility::makeInstance(ConnectionPool::class);
         /**
          * @var QueryBuilder
          */
