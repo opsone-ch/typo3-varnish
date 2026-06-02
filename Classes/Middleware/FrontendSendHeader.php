@@ -25,6 +25,7 @@
 
 namespace Opsone\Varnish\Middleware;
 
+use TYPO3\CMS\Core\Cache\CacheTag;
 use TYPO3\CMS\Core\Http\NormalizedParams;
 use GuzzleHttp\Psr7\ServerRequest;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -70,11 +71,8 @@ class FrontendSendHeader implements MiddlewareInterface
             );
 
             if ((int)VarnishGeneralUtility::getProperty('sendXkeyTags') === 1) {
-                /** @var TypoScriptFrontendController $tsfe */
-                $tsfe = $GLOBALS['TSFE'];
-                $tags = array_unique(
-                    $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.cache.collector')->getCacheTags()
-                );
+                $cacheTags = $request->getAttribute('frontend.cache.collector')->getCacheTags();
+                $tags = array_unique(array_map(static fn(CacheTag $cacheTag) => $cacheTag->name, $cacheTags));
                 //PSR-14 signal to process $tags before we send them
                 /** @var ProcessXtagsEvent */
                 $event = $this->eventDispatcher->dispatch(new ProcessXtagsEvent($tags));
